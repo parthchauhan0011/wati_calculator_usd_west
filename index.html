@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WhatsApp cost estimator — USD West — Wati</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  /* Wati brand tokens — wati.io/branding
+     Green #00e785 · Blue #4fc3ff · Yellow #ffe96e · Pink #f9b4ff
+     Tints  #cafde8 ·      #e3f5ff ·       #fff6da ·      #fdecff
+     Black #1d1d1d · White #ffffff · Type DM Sans                     */
+  :root{
+    --green:#00e785;  --green-soft:#cafde8;
+    --blue:#4fc3ff;   --blue-soft:#e3f5ff;
+    --yellow:#ffe96e; --yellow-soft:#fff6da;
+    --pink:#f9b4ff;   --pink-soft:#fdecff;
+    --black:#1d1d1d;  --ink-soft:#4c514f; --muted:#7a827f;
+    --page:#f7faf9;   --card:#ffffff;
+    --rule:#e4e9e7;   --rule-soft:#eef2f0;
+    --warn:#b23a2e;
+    --shadow:0 1px 2px rgba(29,29,29,.04), 0 18px 40px -28px rgba(29,29,29,.28);
+    --font:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--page);color:var(--black);font-family:var(--font);
+    font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-weight:700;letter-spacing:-.02em;margin:0;line-height:1.12}
+  .num{font-variant-numeric:tabular-nums}
+  a{color:var(--black);text-decoration:none;border-bottom:2px solid var(--green);padding-bottom:1px}
+  a:hover{background:var(--green-soft)}
+  a:focus-visible{outline:2px solid var(--black);outline-offset:2px;border-radius:2px}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+  .label{font-size:11.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  /* topbar */
+  .topbar{background:var(--card);border-bottom:1px solid var(--rule)}
+  .topbar-in{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:15px 22px;max-width:1200px;margin:0 auto;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+  .brand img{height:26px;display:block}
+  .brand .divider{width:1px;height:20px;background:var(--rule)}
+  .brand .toolname{font-weight:500;font-size:.94rem}
+  .regionpill{font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px;
+    background:var(--yellow);color:var(--black);white-space:nowrap}
+  .cycle{display:flex;background:var(--green-soft);border-radius:999px;padding:3px}
+  .cycle button{font-family:var(--font);font-size:13px;font-weight:500;padding:7px 16px;border:0;
+    background:transparent;color:var(--ink-soft);cursor:pointer;border-radius:999px}
+  .cycle button[aria-pressed="true"]{background:var(--green);color:var(--black);font-weight:700}
+  .cycle button:focus-visible{outline:2px solid var(--black);outline-offset:1px}
+
+  .masthead{padding:46px 0 6px}
+  .masthead h1{font-size:clamp(2rem,5vw,3.3rem);max-width:23ch}
+  .masthead h1 mark{background:var(--green-soft);color:var(--black);padding:0 .12em;border-radius:4px}
+  .lede{margin:18px 0 0;max-width:62ch;color:var(--ink-soft);font-size:1.05rem}
+
+  .split{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:46px;align-items:start;padding:28px 0 60px}
+  @media (max-width:980px){ .split{grid-template-columns:minmax(0,1fr);gap:30px} }
+
+  /* questions */
+  .q{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:24px 24px 26px;margin-bottom:14px}
+  .q-head{display:flex;align-items:center;gap:11px;margin-bottom:7px}
+  .q-num{width:24px;height:24px;border-radius:50%;background:var(--green);color:var(--black);
+    font-size:12px;font-weight:700;display:grid;place-items:center;flex:none}
+  .q h2{font-size:1.22rem}
+  .q-note{color:var(--muted);font-size:.9rem;margin:6px 0 18px;max-width:64ch}
+
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{font-family:var(--font);font-size:.9rem;font-weight:500;padding:9px 16px;
+    border:1.5px solid var(--rule);background:var(--card);border-radius:999px;cursor:pointer;
+    color:var(--ink-soft);transition:.14s}
+  .chip[aria-pressed="true"]{border-color:var(--green);background:var(--green-soft);color:var(--black)}
+  .chip:hover{border-color:var(--green)}
+  .chip:focus-visible{outline:2px solid var(--black);outline-offset:2px}
+
+  .field{margin-bottom:22px}
+  .field:last-child{margin-bottom:0}
+  .field-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:8px}
+  .field-label{font-weight:500;font-size:.97rem;display:flex;align-items:center;gap:9px}
+  .field-label.stack{flex-direction:column;align-items:flex-start;gap:0;max-width:46ch}
+  .dot{width:10px;height:10px;border-radius:3px;flex:none}
+  .d-mkt{background:var(--blue)} .d-util{background:var(--green)} .d-auth{background:var(--pink)}
+  .hint{color:var(--muted);font-size:.83rem;font-weight:400;margin-top:3px;display:block}
+  input[type=number]{font-family:var(--font);font-size:.95rem;font-weight:500;width:118px;padding:8px 11px;
+    text-align:right;border:1.5px solid var(--rule);border-radius:9px;background:var(--card);
+    color:var(--black);font-variant-numeric:tabular-nums}
+  input[type=number].narrow{width:86px}
+  input[type=number]:focus-visible{outline:0;border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+  select{font-family:var(--font);font-size:1rem;font-weight:500;width:100%;max-width:360px;
+    padding:11px 13px;border:1.5px solid var(--rule);border-radius:10px;background:var(--card);
+    color:var(--black);cursor:pointer;appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%231d1d1d' stroke-width='1.8' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 14px center}
+  select:focus-visible{outline:0;border-color:var(--green);box-shadow:0 0 0 3px var(--green-soft)}
+
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;background:transparent;cursor:pointer;margin:0}
+  input[type=range]::-webkit-slider-runnable-track{height:5px;background:var(--rule);border-radius:99px}
+  input[type=range]::-moz-range-track{height:5px;background:var(--rule);border-radius:99px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;
+    border-radius:50%;background:var(--card);border:3px solid var(--green);margin-top:-8px;
+    box-shadow:0 1px 4px rgba(29,29,29,.2)}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--card);border:3px solid var(--green)}
+  input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--black);outline-offset:2px}
+  input[type=range].r-mkt::-webkit-slider-thumb{border-color:var(--blue)}
+  input[type=range].r-auth::-webkit-slider-thumb{border-color:var(--pink)}
+  .scale{display:flex;justify-content:space-between;font-size:11px;font-weight:500;color:var(--muted);margin-top:1px}
+
+  .check{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--rule-soft)}
+  .check input[type=checkbox]{margin:4px 0 0;width:17px;height:17px;accent-color:var(--green);flex:none}
+  .check label{font-size:.94rem;font-weight:500}
+
+  .freebox{background:var(--green-soft);border-radius:11px;padding:16px 18px;margin-top:20px}
+  .freebox h3{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .freebox ul{margin:11px 0 0;padding-left:18px;font-size:.88rem}
+  .freebox li{margin-bottom:5px}
+  .freebox li:last-child{margin-bottom:0}
+
+  .fxline{font-size:.83rem;color:var(--muted);margin-top:11px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .fxline b{color:var(--black);font-weight:700;font-variant-numeric:tabular-nums}
+  .fxline button{font-family:var(--font);font-size:12px;font-weight:700;border:1.5px solid var(--rule);
+    background:var(--card);border-radius:999px;padding:3px 11px;cursor:pointer}
+  .fxline button:hover{border-color:var(--green);background:var(--green-soft)}
+  .fxbad{color:var(--warn);font-weight:500}
+
+  /* receipt */
+  .rcol{position:sticky;top:18px}
+  @media (max-width:980px){ .rcol{position:static} }
+  .receipt{background:var(--card);border:1px solid var(--rule);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .r-head{padding:22px 24px 18px;background:var(--green-soft)}
+  .r-head h2{font-size:1.6rem;margin-top:6px}
+  .verdict{margin:11px 0 0;font-size:.88rem;color:var(--ink-soft)}
+  .verdict b{color:var(--black);font-weight:700}
+  .warnbar{background:var(--warn);color:#fff;font-size:12px;font-weight:500;padding:9px 24px;line-height:1.4}
+  .warnbar[hidden]{display:none}
+  .lines{padding:4px 24px}
+  .ghead{font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:16px 0 7px}
+  .line{display:grid;grid-template-columns:1fr auto;gap:12px;padding:9px 0;border-top:1px solid var(--rule-soft);align-items:baseline}
+  .l-name{font-size:.92rem;font-weight:500}
+  .l-sub{display:block;font-size:11.5px;font-weight:400;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+  .l-amt{font-size:.95rem;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .line.free .l-amt{color:var(--muted)}
+  .line.extra .l-name::after{content:"add-on";font-size:9px;font-weight:700;letter-spacing:.07em;
+    text-transform:uppercase;background:var(--yellow-soft);color:#7a6410;border-radius:3px;
+    padding:2px 5px;margin-left:7px;vertical-align:1.5px}
+  .stot{display:grid;grid-template-columns:1fr auto;gap:12px;padding:11px 0 13px;margin-top:2px;
+    border-top:1.5px solid var(--rule);font-size:.88rem;font-weight:500;color:var(--ink-soft)}
+  .stot .v{color:var(--black);font-weight:700;font-variant-numeric:tabular-nums}
+  .totals{padding:18px 24px 22px;border-top:1px solid var(--rule);background:#fbfdfc}
+  .grand{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .grand .l{font-weight:700;font-size:1rem}
+  .grand .l small{display:block;font-size:11px;font-weight:500;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .grand .v{font-weight:700;font-size:2rem;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+  .grand .v.pulse{animation:pop .26s ease-out}
+  @keyframes pop{from{transform:translateY(-3px);opacity:.5}to{transform:none;opacity:1}}
+  .comp{display:flex;height:8px;border-radius:99px;overflow:hidden;margin:18px 0 10px;background:var(--rule-soft)}
+  .comp i{display:block;height:100%;transition:width .2s ease}
+  .clegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;font-weight:500;color:var(--muted)}
+  .clegend i{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px}
+  .clegend b{color:var(--black);font-weight:700}
+  .unit{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:11.5px;
+    font-weight:500;color:var(--muted);padding:13px 24px;border-top:1px solid var(--rule-soft)}
+  .unit b{color:var(--black);font-weight:700;font-variant-numeric:tabular-nums}
+  .acts{display:flex;gap:9px;padding:0 24px 22px}
+  .btn{font-family:var(--font);font-size:13px;font-weight:700;padding:12px 14px;
+    border:1.5px solid var(--black);background:var(--card);color:var(--black);cursor:pointer;
+    border-radius:999px;flex:1}
+  .btn:hover{background:var(--green-soft);border-color:var(--green)}
+  .btn:focus-visible{outline:2px solid var(--black);outline-offset:2px}
+  .btn.pri{background:var(--green);border-color:var(--green)}
+  .btn.pri:hover{background:var(--black);color:#fff;border-color:var(--black)}
+
+  /* plans */
+  .section{padding:44px 0 10px;border-top:1px solid var(--rule)}
+  .s-head{display:flex;justify-content:space-between;align-items:flex-end;gap:22px;flex-wrap:wrap;margin-bottom:26px}
+  .section h2{font-size:clamp(1.5rem,3vw,2.1rem);max-width:26ch}
+  .s-head p{margin:0;max-width:44ch;color:var(--muted);font-size:.92rem}
+  .plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  @media (max-width:840px){ .plans{grid-template-columns:1fr} }
+  .plan{border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:13px;border:1.5px solid transparent}
+  .plan.growth{background:var(--blue-soft)}
+  .plan.pro{background:var(--green-soft)}
+  .plan.business{background:var(--pink-soft)}
+  .plan.growth.best{border-color:var(--blue)}
+  .plan.pro.best{border-color:var(--green)}
+  .plan.business.best{border-color:var(--pink)}
+  .plan.out{background:var(--card);border:1.5px dashed var(--rule);color:var(--muted)}
+  .p-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .plan h3{font-size:1.3rem}
+  .tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;
+    border-radius:999px;background:var(--yellow);color:var(--black);white-space:nowrap}
+  .tag.no{background:transparent;border:1.5px solid var(--muted);color:var(--muted)}
+  .p-tot{font-weight:700;font-size:1.9rem;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+  .p-tot small{display:block;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);margin-top:5px}
+  .p-facts{margin:0;padding:13px 0 0;list-style:none;font-size:.87rem;border-top:1px solid rgba(29,29,29,.1)}
+  .p-facts li{padding:4px 0;display:flex;gap:8px}
+  .p-facts li::before{content:"\00b7";font-weight:700;flex:none}
+  .p-why{font-size:.85rem;font-weight:500;margin:0}
+
+  .notes{border-top:1px solid var(--rule);margin-top:40px;padding:26px 0 70px;max-width:88ch;
+    font-size:.86rem;color:var(--muted)}
+  .notes b{color:var(--black);font-weight:700}
+  .notes ol{padding-left:19px;margin:12px 0 0}
+  .notes li{margin-bottom:8px}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  .mbar{display:none}
+  @media (max-width:980px){
+    body{padding-bottom:70px}
+    .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;align-items:center;
+      justify-content:space-between;gap:14px;background:var(--black);color:#fff;padding:13px 22px}
+    .mbar .l{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#9aa39f}
+    .mbar .l b{display:block;font-size:.95rem;letter-spacing:0;text-transform:none;color:#fff;font-weight:700;margin-top:2px}
+    .mbar .v{font-weight:700;font-size:1.4rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+  }
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+  @media print{
+    body{background:#fff;padding:0}
+    .split{grid-template-columns:1fr}
+    .acts,.cycle,.mbar,.topbar{display:none}
+    .q,.receipt,.plan{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <img src="https://www.wati.io/wp-content/uploads/2024/11/wati-logo-svg-format.svg" alt="Wati" onerror="this.style.display='none'">
+      <span class="divider"></span>
+      <span class="toolname">WhatsApp cost estimator</span>
+      <span class="regionpill">USD West</span>
+    </div>
+    <div class="cycle" role="group" aria-label="Billing cycle">
+      <button type="button" id="cycleAnnual" aria-pressed="true">Annual</button>
+      <button type="button" id="cycleMonthly" aria-pressed="false">Monthly</button>
+    </div>
+  </div>
+</div>
+
+<header class="wrap masthead">
+  <h1>Work out what WhatsApp will <mark>actually</mark> cost you each month.</h1>
+  <p class="lede">Answer eight quick questions. Your bill itemises itself as you go — plan fee, users,
+    add-ons and every message category at its real per-message rate. Then pick the currency you want
+    the quote in and take it away as a PDF.</p>
+</header>
+
+<main class="wrap split">
+  <form id="form" novalidate>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">1</span><h2>Where are your customers?</h2></div>
+      <p class="q-note">WhatsApp charges on the country your customer's number belongs to, not where your
+        business is. Rates move a long way between markets, so start here. North America, Australia, Nordics and South Africa. Uses the USD West usage rate card.</p>
+      <label for="country" class="sr">Country your customers are in</label>
+      <select id="country"></select>
+      <span class="hint" id="countryHint" style="margin-top:9px"></span>
+    </section>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">2</span><h2>What are you using WhatsApp for?</h2></div>
+      <p class="q-note">This sets sensible starting numbers and tells us which features you'll need.
+        Everything stays editable afterwards.</p>
+      <div class="chips" role="group" aria-label="Primary use case">
+        <button type="button" class="chip" data-usecase="marketing" aria-pressed="false">Promotions and campaigns</button>
+        <button type="button" class="chip" data-usecase="support" aria-pressed="false">Customer support</button>
+        <button type="button" class="chip" data-usecase="orders" aria-pressed="false">Order and delivery updates</button>
+        <button type="button" class="chip" data-usecase="otp" aria-pressed="false">Logins and OTPs</button>
+        <button type="button" class="chip" data-usecase="mixed" aria-pressed="true">A mix of all of it</button>
+      </div>
+    </section>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">3</span><h2>How many WhatsApp numbers?</h2></div>
+      <p class="q-note">One number covers most businesses. Separate numbers for, say, sales and support
+        need the Business plan, and each extra number is charged monthly.</p>
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label stack">Numbers connected to Wati
+            <span class="hint" id="numbersHint"></span>
+          </span>
+          <input class="narrow num" type="number" id="numbersNum" min="1" max="20" step="1" value="1" aria-label="Number of WhatsApp numbers">
+        </div>
+        <input type="range" id="numbersRange" min="1" max="10" step="1" value="1" aria-label="WhatsApp numbers slider">
+        <div class="scale"><span>1</span><span>5</span><span>10+</span></div>
+      </div>
+    </section>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">4</span><h2>How many people need a login?</h2></div>
+      <p class="q-note">Everyone answering chats from the shared inbox needs a user seat — support, sales,
+        ops. This is where the plans stop being interchangeable: Growth includes 3 users and cannot be
+        topped up at any price.</p>
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label stack">Team members with Wati access
+            <span class="hint" id="agentsHint"></span>
+          </span>
+          <input class="narrow num" type="number" id="agentsNum" min="1" max="200" step="1" value="3" aria-label="Number of users">
+        </div>
+        <input type="range" id="agentsRange" min="1" max="40" step="1" value="3" aria-label="Users slider">
+        <div class="scale"><span>1</span><span>20</span><span>40+</span></div>
+      </div>
+    </section>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">5</span><h2>How many messages a month?</h2></div>
+      <p class="q-note">WhatsApp charges per delivered message by category, not per contact. Split your
+        monthly outflow across the three categories that cost money. Reaching 15,000 people with a promo
+        and 10,000 with order updates is 15,000 marketing and 10,000 utility.</p>
+
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label"><i class="dot d-mkt"></i>Marketing<span class="sr"> messages per month</span></span>
+          <input class="num" type="number" id="mktNum" min="0" max="5000000" step="100" value="15000" aria-label="Marketing messages per month">
+        </div>
+        <input class="r-mkt" type="range" id="mktRange" min="0" max="100000" step="250" value="15000" aria-label="Marketing messages slider">
+        <div class="scale"><span>0</span><span>50,000</span><span>100,000+</span></div>
+        <span class="hint">Offers, launches, re-engagement, abandoned cart — anything promotional. The most
+          expensive category by a wide margin.</span>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label"><i class="dot d-util"></i>Utility</span>
+          <input class="num" type="number" id="utilNum" min="0" max="5000000" step="100" value="10000" aria-label="Utility messages per month">
+        </div>
+        <input type="range" id="utilRange" min="0" max="100000" step="250" value="10000" aria-label="Utility messages slider">
+        <div class="scale"><span>0</span><span>50,000</span><span>100,000+</span></div>
+        <span class="hint">Order confirmed, shipped, out for delivery, payment received, appointment
+          reminders — anything tied to a transaction the customer already made.</span>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label"><i class="dot d-auth"></i>Authentication</span>
+          <input class="num" type="number" id="authNum" min="0" max="5000000" step="100" value="0" aria-label="Authentication messages per month">
+        </div>
+        <input class="r-auth" type="range" id="authRange" min="0" max="50000" step="100" value="0" aria-label="Authentication messages slider">
+        <div class="scale"><span>0</span><span>25,000</span><span>50,000+</span></div>
+        <span class="hint">One-time passwords and login codes only.</span>
+      </div>
+
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label stack">Utility messages sent as a reply within 24 hours of the customer writing in
+            <span class="hint">These land inside the free service window and cost nothing. Support-led teams
+              can push this high; pure broadcast teams should leave it at 0.</span>
+          </span>
+          <input class="narrow num" type="number" id="freeWindow" min="0" max="100" step="5" value="0" aria-label="Percentage of utility messages inside the free service window">
+        </div>
+        <input type="range" id="freeWindowRange" min="0" max="100" step="5" value="0" aria-label="Free service window slider">
+        <div class="scale"><span>0%</span><span>50%</span><span>100%</span></div>
+      </div>
+
+      <div class="freebox">
+        <h3>What you're never charged for</h3>
+        <ul>
+          <li><b>Service conversations.</b> A customer writes in, you reply — free on Growth, Pro and Business alike.</li>
+          <li><b>Click-to-WhatsApp ad conversations.</b> Chats opened from a CTWA ad are free.</li>
+          <li><b>Utility replies inside the 24-hour service window.</b> Set by the slider above.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">6</span><h2>How much runs on autopilot?</h2></div>
+      <p class="q-note">An automation trigger is counted every time an automation you've set up fires for a
+        customer — a chatbot, keyword action, default action, reply material, routing rule, sequence or
+        WhatsApp Flow. Run out mid-month and automations stop until you buy more, so your team answers by
+        hand. The Automation Triggers add-on covers chatbot sessions and keyword actions together, so
+        there's nothing separate to buy.
+        <a href="https://support.wati.io/en/articles/11462996-understanding-automation-triggers-and-their-cost" target="_blank" rel="noopener">How triggers are counted and charged</a></p>
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label stack">Automation triggers a month
+            <span class="hint">Rough guide: one per customer who starts an automated chat, plus one for each
+              automated follow-up. Manual and API-initiated actions don't count.</span>
+          </span>
+          <input class="num" type="number" id="trigNum" min="0" max="1000000" step="100" value="2000" aria-label="Automation triggers per month">
+        </div>
+        <input type="range" id="trigRange" min="0" max="30000" step="100" value="2000" aria-label="Automation triggers slider">
+        <div class="scale"><span>0</span><span>15,000</span><span>30,000+</span></div>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="needAdvanced">
+        <div><label for="needAdvanced">I need advanced chatbots, forms, CTWA click tracking or AI agents</label>
+        <span class="hint">Growth handles keyword-level rules only. Ticking this rules it out.</span></div>
+      </div>
+    </section>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">7</span><h2>Any add-ons?</h2></div>
+      <p class="q-note">Both are charged on top of the plan, and both come with an allowance included first.</p>
+      <div class="field">
+        <div class="field-top">
+          <span class="field-label stack">AI Co-pilot credits a month
+            <span class="hint">Consumed by Wati's AI writing and summarising features. Included free: 250 on
+              Growth, 500 on Pro, 1,500 on Business. Leave at 0 if your team won't use them.</span>
+          </span>
+          <input class="num" type="number" id="aiNum" min="0" max="200000" step="50" value="0" aria-label="AI Co-pilot credits per month">
+        </div>
+        <input type="range" id="aiRange" min="0" max="10000" step="50" value="0" aria-label="AI Co-pilot credits slider">
+        <div class="scale"><span>0</span><span>5,000</span><span>10,000+</span></div>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="needShopify">
+        <div><label for="needShopify">Connect Shopify</label>
+        <span class="hint">Required for abandoned-cart recovery, COD confirmation and automated order
+          updates. Billed in USD at $4.99 a month.</span></div>
+      </div>
+    </section>
+
+    <section class="q">
+      <div class="q-head"><span class="q-num">8</span><h2>Show the quote in</h2></div>
+      <p class="q-note">Wati bills this region in USD. Pick your customer's local currency and the whole
+        bill converts at today's rate — useful when the person you're quoting thinks in their own money.</p>
+      <label for="outCcy" class="sr">Output currency</label>
+      <select id="outCcy"></select>
+      <div class="fxline" id="fxline"></div>
+    </section>
+  </form>
+
+  <aside class="rcol" aria-label="Cost estimate">
+    <div class="receipt">
+      <div class="r-head">
+        <span class="label">Estimated monthly cost</span>
+        <h2 id="planName">Wati Pro</h2>
+        <p class="verdict" id="verdict"></p>
+      </div>
+      <div class="warnbar" id="warnbar" hidden></div>
+      <div class="lines" id="lines"></div>
+      <div class="totals">
+        <div class="grand">
+          <span class="l">Total per month<small id="cycleLabel">plan billed annually</small></span>
+          <span class="v num" id="grand">—</span>
+        </div>
+        <div class="comp" id="comp" role="img" aria-label="What the cost is made of"><i></i><i></i><i></i><i></i></div>
+        <div class="clegend" id="clegend"></div>
+      </div>
+      <div class="unit">
+        <span>Blended <b id="blended">—</b> per message</span>
+        <span>Yearly <b id="yearly">—</b></span>
+      </div>
+      <div class="acts">
+        <button type="button" class="btn pri" id="pdfBtn">Save as PDF</button>
+        <button type="button" class="btn" id="copyBtn">Copy estimate</button>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="wrap section">
+  <div class="s-head">
+    <h2>The same requirements, priced on all three plans</h2>
+    <p>A cheaper plan isn't always a cheaper bill once users, trigger top-ups and per-plan message rates
+      are counted.</p>
+  </div>
+  <div class="plans" id="plans"></div>
+</section>
+
+<div class="wrap notes">
+  <b>What's assumed here, so you can check it.</b>
+  <ol>
+    <li>Plan prices, extra-user prices and add-on prices are the published <b>USD West</b> figures.
+      Per-message rates come from the Wati usage rate card that applies to this region, effective
+      1 July 2026, and are charged on the recipient's country. Each plan tier has its own rates —
+      the higher tiers are cheaper per message.</li>
+    <li>Message rates are quoted in USD on the rate card. Where the plan is billed in another currency,
+      the two are converted into your chosen output currency at today's rate, shown under question 8.</li>
+    <li>Growth's 15,000-broadcast monthly cap is checked against marketing plus utility volume.
+      Authentication messages are API-triggered one-to-one and aren't treated as broadcasts. Pro and
+      Business have no broadcast cap.</li>
+    <li>Included automation triggers: 1,000 on Growth, 2,000 on Pro, 5,000 on Business. Top-ups are sold
+      per 1,000 and the estimate rounds up to whole blocks. Unused triggers don't roll over.</li>
+    <li>Included AI Co-pilot credits: 250 on Growth, 500 on Pro, 1,500 on Business. Top-ups are sold per 1,000.</li>
+    <li>Extra WhatsApp numbers need the Business plan. Shopify is billed in USD at $4.99 a month
+      everywhere, so it moves with the exchange rate in other currencies.</li>
+    <li>Message charges are drawn from a prepaid wallet, separate from the subscription invoice.</li>
+    <li>Business volume discounts above roughly a million messages a month aren't modelled. Also
+      excluded: Astra AI agents, dedicated onboarding, technical account management, professional
+      services, green-tick verification and the Blitz high-throughput add-on — all quoted separately.</li>
+    <li>Exchange rates are fetched live from a public rates API and are indicative, not a dealing rate.
+      Wati invoices in USD; your bank's rate on the day will differ slightly.</li>
+  </ol>
+</div>
+
+<div class="mbar" aria-hidden="true">
+  <span class="l">Estimated monthly<b id="mbPlan">Wati Pro</b></span>
+  <span class="v num" id="mbTotal">—</span>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     Region configuration, generated at build time.
+     ============================================================ */
+  var CONFIG = {"region": "USD West", "card": "W", "planCcy": "USD", "planSymbol": "$", "plans": {"growth": {"label": "Growth", "annual": 59, "monthly": 69, "seats": 3, "extraSeat": null, "triggers": 1000, "aiCredits": 250, "broadcastCap": 15000, "numbers": 1, "advanced": false}, "pro": {"label": "Pro", "annual": 119, "monthly": 149, "seats": 5, "extraSeat": 39, "triggers": 2000, "aiCredits": 500, "broadcastCap": null, "numbers": 1, "advanced": true}, "business": {"label": "Business", "annual": 279, "monthly": 349, "seats": 5, "extraSeat": 89, "triggers": 5000, "aiCredits": 1500, "broadcastCap": null, "numbers": null, "advanced": true}}, "triggerPack": {"size": 1000, "price": 40}, "aiPack": {"size": 1000, "price": 30}, "extraNumber": 29, "shopifyUsd": 4.99, "currencies": [{"country": "United States", "ccy": "USD"}, {"country": "Canada", "ccy": "CAD"}, {"country": "Australia", "ccy": "AUD"}, {"country": "Iceland", "ccy": "ISK"}, {"country": "Norway", "ccy": "NOK"}, {"country": "South Africa", "ccy": "ZAR"}], "fallbackRates": {"USD": 1, "EUR": 0.86, "GBP": 0.75, "CHF": 0.8, "SEK": 9.6, "DKK": 6.4, "NOK": 10.3, "ISK": 137, "PLN": 3.7, "CZK": 21, "HUF": 350, "RON": 4.3, "BGN": 1.69, "RSD": 101, "MKD": 53, "BAM": 1.69, "GEL": 2.7, "BYN": 3.3, "ALL": 84, "AMD": 385, "AZN": 1.7, "KZT": 520, "MDL": 17, "RUB": 80, "UAH": 41, "CAD": 1.37, "AUD": 1.53, "ZAR": 18, "AED": 3.6725, "SAR": 3.75, "QAR": 3.64, "KWD": 0.306, "BHD": 0.376, "OMR": 0.3845, "JOD": 0.709, "ILS": 3.4, "EGP": 48.5, "TRY": 40, "IQD": 1310, "IRR": 42000, "LBP": 89500, "SYP": 13000, "YER": 250, "IDR": 16200, "PHP": 57, "THB": 33, "VND": 25500, "BND": 1.29, "KHR": 4050, "LAK": 21700, "MMK": 2100, "NGN": 1550, "KES": 129, "GHS": 12, "ZMW": 26, "TZS": 2600, "UGX": 3650, "ETB": 130, "DZD": 133, "TND": 3.0, "LYD": 4.85, "XOF": 565, "XAF": 565, "MZN": 64, "BWP": 13.5, "NAD": 18, "MUR": 46, "MWK": 1750, "MGA": 4500, "RWF": 1350, "CDF": 2850, "SDG": 600, "SOS": 570, "SSP": 4500, "SCR": 14, "SLE": 23, "GMD": 72, "GNF": 8600, "LRD": 195, "CVE": 95, "STN": 21, "ERN": 15, "SZL": 18, "LSL": 18, "DJF": 178, "KMF": 440, "BIF": 2950, "AOA": 900, "MRU": 40, "ZWG": 26}};
+
+  /* Per-country per-message rates in USD, from the region's usage rate card
+     (1 July 2026).  ISO: [growthPro mkt,util,auth, business mkt,util,auth] */
+  var RATES = {AF:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],AL:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],DZ:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],AS:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],AD:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],AO:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],AI:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],AQ:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],AG:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],AR:[0.09888,0.0468,0.0468,0.08776,0.0416,0.0416],AM:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],AW:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],AU:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],AT:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],AZ:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],BS:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BH:[0.05456,0.01638,0.01638,0.04842,0.01456,0.01456],BD:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],BB:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BY:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],BE:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],BZ:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BJ:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],BM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BT:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BO:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],BA:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BW:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],BR:[0.1,0.01224,0.01224,0.08875,0.01088,0.01088],IO:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],VG:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BN:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],BG:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],BF:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],BI:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],KH:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],CM:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],CA:[0.04,0.00612,0.00612,0.0355,0.00544,0.00544],CV:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],KY:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CF:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],TD:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],CL:[0.14224,0.036,0.036,0.12624,0.032,0.032],CN:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],CX:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CC:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CO:[0.02,0.00144,0.00144,0.01775,0.00128,0.00128],KM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CK:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CR:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],HR:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],CU:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CW:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CY:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],CZ:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],CD:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],DK:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],DJ:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],DM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],DO:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],TL:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],EC:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],EG:[0.10304,0.00648,0.00648,0.09145,0.00576,0.00576],SV:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],GQ:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],ER:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],EE:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],ET:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],FK:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],FO:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],FJ:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],FI:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],FR:[0.13744,0.054,0.054,0.12198,0.048,0.048],PF:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],GA:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],GM:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],GE:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],DE:[0.2184,0.099,0.099,0.19383,0.088,0.088],GH:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],GI:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],GR:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],GL:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],GD:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],GU:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],GT:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],GG:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],GN:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],GW:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],GY:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],HT:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],HN:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],HK:[0.11712,0.0468,0.0468,0.10394,0.0416,0.0416],HU:[0.1376,0.063,0.063,0.12212,0.056,0.056],IS:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],IN:[0.01888,0.00252,0.00252,0.01676,0.00224,0.00224],ID:[0.06576,0.045,0.045,0.05836,0.04,0.04],IR:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],IQ:[0.05456,0.01638,0.01638,0.04842,0.01456,0.01456],IE:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],IM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],IL:[0.05648,0.00954,0.00954,0.05013,0.00848,0.00848],IT:[0.1272,0.054,0.054,0.11289,0.048,0.048],CI:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],JM:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],JP:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],JE:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],JO:[0.05456,0.01638,0.01638,0.04842,0.01456,0.01456],KZ:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],KE:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],KI:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],XK:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],KW:[0.05456,0.01638,0.01638,0.04842,0.01456,0.01456],KG:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],LA:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],LV:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],LB:[0.05456,0.01638,0.01638,0.04842,0.01456,0.01456],LS:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],LR:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],LY:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],LI:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],LT:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],LU:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MO:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MK:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MG:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],MW:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],MY:[0.1376,0.0252,0.0252,0.12212,0.0224,0.0224],MV:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],ML:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],MT:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MH:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MR:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],MU:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],YT:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MX:[0.0488,0.0153,0.0153,0.04331,0.0136,0.0136],FM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MD:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],MC:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MN:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],ME:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MS:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MA:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],MZ:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],MM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],NA:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],NR:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],NP:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],NL:[0.25552,0.09,0.09,0.22677,0.08,0.08],AN:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],NC:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],NZ:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],NI:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],NE:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],NG:[0.08256,0.01206,0.01206,0.07327,0.01072,0.01072],NU:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],KP:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MP:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],NO:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],OM:[0.05456,0.01638,0.01638,0.04842,0.01456,0.01456],XX:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],PK:[0.07568,0.018,0.018,0.06717,0.016,0.016],PW:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],PS:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],PA:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],PG:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],PY:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],PE:[0.11248,0.036,0.036,0.09983,0.032,0.032],PH:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],PN:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],PL:[0.05856,0.02196,0.02196,0.05197,0.01952,0.01952],PT:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],PR:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],QA:[0.05456,0.0216,0.0216,0.04842,0.0192,0.0192],CG:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],RE:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],RO:[0.1376,0.0522,0.0522,0.12212,0.0464,0.0464],RU:[0.12832,0.072,0.072,0.11388,0.064,0.064],RW:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],BL:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SH:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],KN:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],LC:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],MF:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],PM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],VC:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],WS:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SM:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],ST:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SA:[0.08016,0.01926,0.01926,0.07114,0.01712,0.01712],SN:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],RS:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],SC:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SL:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],SG:[0.11712,0.0288,0.0288,0.10394,0.0256,0.0256],SX:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SK:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],SI:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],SB:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SO:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],ZA:[0.06064,0.01368,0.01368,0.05382,0.01216,0.01216],KR:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SS:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],ES:[0.11312,0.036,0.036,0.10039,0.032,0.032],LK:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],SD:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],SR:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SJ:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],SZ:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],SE:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],CH:[0.09472,0.03078,0.03078,0.08406,0.02736,0.02736],SY:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],TW:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],TJ:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],TZ:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],TH:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],TG:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],TK:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],TO:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],TT:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],TN:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],TR:[0.01744,0.00162,0.00162,0.01548,0.00144,0.00144],TM:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],TC:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],TV:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],VI:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],UG:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],UA:[0.1376,0.03816,0.03816,0.12212,0.03392,0.03392],AE:[0.07984,0.02826,0.02826,0.07086,0.02512,0.02512],GB:[0.1016,0.0396,0.0396,0.09017,0.0352,0.0352],US:[0.04,0.00612,0.00612,0.0355,0.00544,0.00544],UY:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],UZ:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],VU:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],VA:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],VE:[0.1184,0.02034,0.02034,0.10508,0.01808,0.01808],VN:[0.11712,0.02034,0.02034,0.10394,0.01808,0.01808],WF:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],EH:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232],YE:[0.05456,0.01638,0.01638,0.04842,0.01456,0.01456],ZM:[0.036,0.0072,0.0072,0.03195,0.0064,0.0064],ZW:[0.09664,0.01386,0.01386,0.08577,0.01232,0.01232]};
+  var NAMES = {AF:"Afghanistan",AL:"Albania",DZ:"Algeria",AS:"American Samoa",AD:"Andorra",AO:"Angola",AI:"Anguilla",AQ:"Antarctica",AG:"Antigua and Barbuda",AR:"Argentina",AM:"Armenia",AW:"Aruba",AU:"Australia",AT:"Austria",AZ:"Azerbaijan",BS:"Bahamas",BH:"Bahrain",BD:"Bangladesh",BB:"Barbados",BY:"Belarus",BE:"Belgium",BZ:"Belize",BJ:"Benin",BM:"Bermuda",BT:"Bhutan",BO:"Bolivia",BA:"Bosnia and Herzegovina",BW:"Botswana",BR:"Brazil",IO:"British Indian Ocean Territory",VG:"British Virgin Islands",BN:"Brunei",BG:"Bulgaria",BF:"Burkina Faso",BI:"Burundi",KH:"Cambodia",CM:"Cameroon",CA:"Canada",CV:"Cape Verde",KY:"Cayman Islands",CF:"Central African Republic",TD:"Chad",CL:"Chile",CN:"China",CX:"Christmas Island",CC:"Cocos Islands",CO:"Colombia",KM:"Comoros",CK:"Cook Islands",CR:"Costa Rica",HR:"Croatia",CU:"Cuba",CW:"Curacao",CY:"Cyprus",CZ:"Czech Republic",CD:"Democratic Republic of the Congo",DK:"Denmark",DJ:"Djibouti",DM:"Dominica",DO:"Dominican Republic",TL:"East Timor",EC:"Ecuador",EG:"Egypt",SV:"El Salvador",GQ:"Equatorial Guinea",ER:"Eritrea",EE:"Estonia",ET:"Ethiopia",FK:"Falkland Islands",FO:"Faroe Islands",FJ:"Fiji",FI:"Finland",FR:"France",PF:"French Polynesia",GA:"Gabon",GM:"Gambia",GE:"Georgia",DE:"Germany",GH:"Ghana",GI:"Gibraltar",GR:"Greece",GL:"Greenland",GD:"Grenada",GU:"Guam",GT:"Guatemala",GG:"Guernsey",GN:"Guinea",GW:"Guinea-Bissau",GY:"Guyana",HT:"Haiti",HN:"Honduras",HK:"Hong Kong",HU:"Hungary",IS:"Iceland",IN:"India",ID:"Indonesia",IR:"Iran",IQ:"Iraq",IE:"Ireland",IM:"Isle of Man",IL:"Israel",IT:"Italy",CI:"Ivory Coast",JM:"Jamaica",JP:"Japan",JE:"Jersey",JO:"Jordan",KZ:"Kazakhstan",KE:"Kenya",KI:"Kiribati",XK:"Kosovo",KW:"Kuwait",KG:"Kyrgyzstan",LA:"Laos",LV:"Latvia",LB:"Lebanon",LS:"Lesotho",LR:"Liberia",LY:"Libya",LI:"Liechtenstein",LT:"Lithuania",LU:"Luxembourg",MO:"Macau",MK:"Macedonia",MG:"Madagascar",MW:"Malawi",MY:"Malaysia",MV:"Maldives",ML:"Mali",MT:"Malta",MH:"Marshall Islands",MR:"Mauritania",MU:"Mauritius",YT:"Mayotte",MX:"Mexico",FM:"Micronesia",MD:"Moldova",MC:"Monaco",MN:"Mongolia",ME:"Montenegro",MS:"Montserrat",MA:"Morocco",MZ:"Mozambique",MM:"Myanmar",NA:"Namibia",NR:"Nauru",NP:"Nepal",NL:"Netherlands",AN:"Netherlands Antilles",NC:"New Caledonia",NZ:"New Zealand",NI:"Nicaragua",NE:"Niger",NG:"Nigeria",NU:"Niue",KP:"North Korea",MP:"Northern Mariana Islands",NO:"Norway",OM:"Oman",XX:"Other",PK:"Pakistan",PW:"Palau",PS:"Palestine",PA:"Panama",PG:"Papua New Guinea",PY:"Paraguay",PE:"Peru",PH:"Philippines",PN:"Pitcairn",PL:"Poland",PT:"Portugal",PR:"Puerto Rico",QA:"Qatar",CG:"Republic of the Congo",RE:"Reunion",RO:"Romania",RU:"Russia",RW:"Rwanda",BL:"Saint Barthelemy",SH:"Saint Helena",KN:"Saint Kitts and Nevis",LC:"Saint Lucia",MF:"Saint Martin",PM:"Saint Pierre and Miquelon",VC:"Saint Vincent and the Grenadines",WS:"Samoa",SM:"San Marino",ST:"Sao Tome and Principe",SA:"Saudi Arabia",SN:"Senegal",RS:"Serbia",SC:"Seychelles",SL:"Sierra Leone",SG:"Singapore",SX:"Sint Maarten",SK:"Slovakia",SI:"Slovenia",SB:"Solomon Islands",SO:"Somalia",ZA:"South Africa",KR:"South Korea",SS:"South Sudan",ES:"Spain",LK:"Sri Lanka",SD:"Sudan",SR:"Suriname",SJ:"Svalbard and Jan Mayen",SZ:"Swaziland",SE:"Sweden",CH:"Switzerland",SY:"Syria",TW:"Taiwan",TJ:"Tajikistan",TZ:"Tanzania",TH:"Thailand",TG:"Togo",TK:"Tokelau",TO:"Tonga",TT:"Trinidad and Tobago",TN:"Tunisia",TR:"Turkey",TM:"Turkmenistan",TC:"Turks and Caicos Islands",TV:"Tuvalu",VI:"U.S. Virgin Islands",UG:"Uganda",UA:"Ukraine",AE:"United Arab Emirates",GB:"United Kingdom",US:"United States",UY:"Uruguay",UZ:"Uzbekistan",VU:"Vanuatu",VA:"Vatican",VE:"Venezuela",VN:"Vietnam",WF:"Wallis and Futuna",EH:"Western Sahara",YE:"Yemen",ZM:"Zambia",ZW:"Zimbabwe"};
+
+  var PLAN_ORDER = ["growth","pro","business"];
+  var CATS = ["marketing","utility","authentication"];
+  var CAT_META = {
+    marketing:      { label:"Marketing messages",      color:"var(--blue)",  i:0 },
+    utility:        { label:"Utility messages",        color:"var(--green)", i:1 },
+    authentication: { label:"Authentication messages", color:"var(--pink)",  i:2 }
+  };
+  // Growth and Pro share one rate card; Business has its own.
+  function rateFor(planKey, cat, iso){
+    var row = RATES[iso];
+    if (!row) return 0;
+    var off = (planKey === "business") ? 3 : 0;
+    return row[off + CAT_META[cat].i];
+  }
+
+  var PRESETS = {
+    marketing:{ mkt:20000, util:2000,  auth:0,     agents:3, trig:1500, advanced:false },
+    support:  { mkt:2000,  util:8000,  auth:0,     agents:8, trig:9000, advanced:true  },
+    orders:   { mkt:3000,  util:20000, auth:0,     agents:4, trig:6000, advanced:false },
+    otp:      { mkt:0,     util:2000,  auth:20000, agents:2, trig:1000, advanced:false },
+    mixed:    { mkt:15000, util:10000, auth:0,     agents:5, trig:4000, advanced:false }
+  };
+
+  var state = {
+    country: RATES["IN"] ? "IN" : Object.keys(RATES)[0],
+    useCase:"mixed", numbers:1, agents:3,
+    mkt:15000, util:10000, auth:0, freeWindow:0,
+    triggers:2000, aiCredits:0,
+    needAdvanced:false, needShopify:false,
+    cycle:"annual",
+    outCcy: CONFIG.planCcy
+  };
+
+  /* ============================================================
+     Currency. Two amount pools:
+       plan  — priced in CONFIG.planCcy (EUR / GBP / USD)
+       usd   — messages and Shopify, always USD
+     Everything is converted into state.outCcy for display.
+     ============================================================ */
+  var FX = { rates:null, live:false, when:null, source:null };
+
+  function rateOf(ccy){
+    var r = FX.rates || CONFIG.fallbackRates;
+    return r[ccy];
+  }
+  function conv(amount, from, to){
+    if (!amount) return 0;
+    if (from === to) return amount;
+    var rf = rateOf(from), rt = rateOf(to);
+    if (!rf || !rt) return NaN;
+    return amount / rf * rt;                 // rates are per 1 USD
+  }
+  function ccyAvailable(ccy){ return !!rateOf(ccy); }
+
+  function money(amount, from){
+    var v = conv(amount, from || CONFIG.planCcy, state.outCcy);
+    if (isNaN(v)) return "—";
+    try {
+      return new Intl.NumberFormat(undefined, {
+        style:"currency", currency:state.outCcy,
+        minimumFractionDigits:0, maximumFractionDigits:0
+      }).format(Math.round(v));
+    } catch(e){ return state.outCcy + " " + Math.round(v).toLocaleString(); }
+  }
+  function moneyFine(amount, from){
+    var v = conv(amount, from || CONFIG.planCcy, state.outCcy);
+    if (isNaN(v)) return "—";
+    try {
+      return new Intl.NumberFormat(undefined, {
+        style:"currency", currency:state.outCcy,
+        minimumFractionDigits:4, maximumFractionDigits:4
+      }).format(v);
+    } catch(e){ return state.outCcy + " " + v.toFixed(4); }
+  }
+  function usdRate(r){ return "$" + r.toFixed(5).replace(/0+$/,"").replace(/\.$/,""); }
+  function count(n){ return n.toLocaleString("en-US"); }
+  function $(id){ return document.getElementById(id); }
+
+  /* ---------------- live rates ---------------- */
+  function applyRates(map, source){
+    var clean = {};
+    Object.keys(map).forEach(function(k){
+      var v = map[k];
+      if (typeof v === "number" && isFinite(v) && v > 0) clean[k.toUpperCase()] = v;
+    });
+    clean.USD = 1;
+    FX.rates = clean; FX.live = true; FX.when = new Date(); FX.source = source;
+  }
+
+  function fetchRates(){
+    renderFx("loading");
+    var a = "https://open.er-api.com/v6/latest/USD";
+    var b = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json";
+    fetch(a).then(function(r){
+      if (!r.ok) throw new Error("http " + r.status);
+      return r.json();
+    }).then(function(j){
+      if (!j || !j.rates) throw new Error("shape");
+      applyRates(j.rates, "open.er-api.com");
+      rebuildCcyOptions(); render();
+    }).catch(function(){
+      fetch(b).then(function(r){
+        if (!r.ok) throw new Error("http " + r.status);
+        return r.json();
+      }).then(function(j){
+        if (!j || !j.usd) throw new Error("shape");
+        applyRates(j.usd, "currency-api");
+        rebuildCcyOptions(); render();
+      }).catch(function(){
+        FX.rates = null; FX.live = false;
+        rebuildCcyOptions(); render();
+      });
+    });
+  }
+
+  function renderFx(mode){
+    var el = $("fxline");
+    if (mode === "loading"){ el.innerHTML = "Fetching today's exchange rates…"; return; }
+    var one, per;
+    if (state.outCcy === "USD"){
+      one = "1 USD"; per = "";
+    } else {
+      var v = conv(1, "USD", state.outCcy);
+      per = isNaN(v) ? "" : "1 USD = <b>" + v.toLocaleString(undefined,{maximumFractionDigits:4}) + " " + state.outCcy + "</b>";
+    }
+    var bits = [];
+    if (per) bits.push(per);
+    if (FX.live){
+      bits.push("live rate, " + FX.when.toLocaleString(undefined,{dateStyle:"medium",timeStyle:"short"}));
+      bits.push("via " + FX.source);
+    } else {
+      bits.push('<span class="fxbad">Live rates unavailable — static reference rates in use. Do not quote from this.</span>');
+    }
+    el.innerHTML = bits.join(" · ") + ' <button type="button" id="fxRetry">Refresh rates</button>';
+    $("fxRetry").addEventListener("click", fetchRates);
+  }
+
+  /* ============================================================
+     The maths
+     ============================================================ */
+  function billableVolumes(){
+    var freeUtility = Math.round(state.util * (state.freeWindow/100));
+    return {
+      marketing: state.mkt,
+      utility: state.util - freeUtility,
+      authentication: state.auth,
+      freeUtility: freeUtility,
+      total: state.mkt + state.util + state.auth
+    };
+  }
+
+  function estimate(planKey){
+    var plan = CONFIG.plans[planKey];
+    var vol = billableVolumes();
+    var subLines = [], msgLines = [], reasons = [];
+    var cap = (plan.broadcastCap === null) ? Infinity : plan.broadcastCap;
+    var maxNumbers = (plan.numbers === null) ? Infinity : plan.numbers;
+
+    if (state.agents > plan.seats && plan.extraSeat === null){
+      reasons.push("Includes " + plan.seats + " users with no way to add more — you need " + state.agents + ".");
+    }
+    if (state.numbers > maxNumbers){
+      reasons.push("Supports one WhatsApp number; you need " + state.numbers + ".");
+    }
+    // The broadcast cap covers campaign sends. Authentication is API-triggered
+    // one-to-one, so it doesn't count towards it.
+    var broadcastVolume = state.mkt + state.util;
+    if (broadcastVolume > cap){
+      reasons.push("Broadcasts are capped at " + count(cap) + " a month; your marketing plus utility volume is " + count(broadcastVolume) + ".");
+    }
+    if (state.needAdvanced && !plan.advanced){
+      reasons.push("No advanced chatbots, forms or AI agents on this plan.");
+    }
+
+    var base = state.cycle === "annual" ? plan.annual : plan.monthly;
+    subLines.push({ ccy:"plan", amount:base, name: plan.label + " plan",
+      sub: plan.seats + " users \u00b7 " + count(plan.triggers) + " triggers \u00b7 " + count(plan.aiCredits) + " AI credits" });
+
+    var extraSeats = Math.max(0, state.agents - plan.seats);
+    if (extraSeats > 0 && plan.extraSeat !== null){
+      subLines.push({ ccy:"plan", amount: extraSeats * plan.extraSeat, extra:true,
+        name: extraSeats + " extra " + (extraSeats === 1 ? "user" : "users"),
+        sub: count(extraSeats) + " \u00d7 " + money(plan.extraSeat) });
+    }
+
+    var extraNumbers = Math.max(0, state.numbers - 1);
+    if (extraNumbers > 0 && maxNumbers === Infinity){
+      subLines.push({ ccy:"plan", amount: extraNumbers * CONFIG.extraNumber, extra:true,
+        name: extraNumbers + " extra WhatsApp " + (extraNumbers === 1 ? "number" : "numbers"),
+        sub: count(extraNumbers) + " \u00d7 " + money(CONFIG.extraNumber) });
+    }
+
+    var trigPacks = Math.ceil(Math.max(0, state.triggers - plan.triggers) / CONFIG.triggerPack.size);
+    if (trigPacks > 0){
+      subLines.push({ ccy:"plan", amount: trigPacks * CONFIG.triggerPack.price, extra:true,
+        name:"Extra automation triggers",
+        sub: trigPacks + " \u00d7 " + count(CONFIG.triggerPack.size) + " at " + money(CONFIG.triggerPack.price) });
+    }
+
+    var aiPacks = Math.ceil(Math.max(0, state.aiCredits - plan.aiCredits) / CONFIG.aiPack.size);
+    if (aiPacks > 0){
+      subLines.push({ ccy:"plan", amount: aiPacks * CONFIG.aiPack.price, extra:true,
+        name:"Extra AI Co-pilot credits",
+        sub: aiPacks + " \u00d7 " + count(CONFIG.aiPack.size) + " at " + money(CONFIG.aiPack.price) });
+    }
+
+    if (state.needShopify){
+      subLines.push({ ccy:"USD", amount: CONFIG.shopifyUsd, extra:true,
+        name:"Shopify integration", sub:"$4.99 a month, billed in USD" });
+    }
+
+    CATS.forEach(function(cat){
+      var v = vol[cat];
+      if (!v) return;
+      var r = rateFor(planKey, cat, state.country);
+      msgLines.push({ ccy:"USD", amount: v * r, cat:cat,
+        name: CAT_META[cat].label,
+        sub: count(v) + " \u00d7 " + usdRate(r) });
+    });
+    if (vol.freeUtility > 0){
+      msgLines.push({ ccy:"USD", amount:0, free:true,
+        name:"Utility inside the service window", sub: count(vol.freeUtility) + " messages" });
+    }
+
+    // Subtotals kept per source currency, converted only for display.
+    function sum(lines, ccy){
+      return lines.reduce(function(s,l){ return s + (l.ccy === ccy ? l.amount : 0); }, 0);
+    }
+    var subPlan = sum(subLines, "plan"), subUsd = sum(subLines, "USD");
+    var msgUsd  = sum(msgLines, "USD");
+
+    var totalOut = conv(subPlan, CONFIG.planCcy, state.outCcy) + conv(subUsd + msgUsd, "USD", state.outCcy);
+
+    return {
+      key:planKey, plan:plan, subLines:subLines, msgLines:msgLines, reasons:reasons,
+      eligible: reasons.length === 0,
+      subPlan:subPlan, subUsd:subUsd, msgUsd:msgUsd,
+      subOut: conv(subPlan, CONFIG.planCcy, state.outCcy) + conv(subUsd, "USD", state.outCcy),
+      msgOut: conv(msgUsd, "USD", state.outCcy),
+      totalOut: totalOut,
+      platformOut: conv(base, CONFIG.planCcy, state.outCcy),
+      seatOut: conv(extraSeats * (plan.extraSeat || 0), CONFIG.planCcy, state.outCcy),
+      volumes:vol, extraSeats:extraSeats, trigPacks:trigPacks, aiPacks:aiPacks,
+      marketingRate: rateFor(planKey, "marketing", state.country)
+    };
+  }
+
+  function recommend(all){
+    var ok = PLAN_ORDER.map(function(k){ return all[k]; }).filter(function(e){ return e.eligible; });
+    if (ok.length) return ok.sort(function(a,b){ return a.totalOut - b.totalOut; })[0];
+    return all.business;
+  }
+
+  function fmtOut(v){
+    if (isNaN(v)) return "—";
+    try {
+      return new Intl.NumberFormat(undefined,{style:"currency",currency:state.outCcy,
+        minimumFractionDigits:0,maximumFractionDigits:0}).format(Math.round(v));
+    } catch(e){ return state.outCcy + " " + Math.round(v).toLocaleString(); }
+  }
+
+  /* ============================================================
+     Render
+     ============================================================ */
+  var lastGrand = null;
+
+  function render(){
+    var all = {};
+    PLAN_ORDER.forEach(function(k){ all[k] = estimate(k); });
+    var pick = recommend(all);
+
+    var cname = NAMES[state.country] || state.country;
+    $("countryHint").innerHTML = "On " + pick.plan.label + ", marketing to " + cname + " costs " +
+      usdRate(rateFor(pick.key,"marketing",state.country)) + " a message and utility " +
+      usdRate(rateFor(pick.key,"utility",state.country)) +
+      ". Switch country and the whole bill reprices.";
+    $("numbersHint").textContent = state.numbers > 1
+      ? state.numbers + " numbers — only the Business plan supports this, plus " +
+        money(CONFIG.extraNumber) + " a month each beyond the first."
+      : "One number. Any plan can do this.";
+    $("agentsHint").textContent = state.agents > 3
+      ? state.agents + " users rules out Growth, which is capped at 3."
+      : "Growth covers up to 3. Pro and Business include 5.";
+
+    $("planName").textContent = "Wati " + pick.plan.label;
+    $("verdict").innerHTML = verdictText(pick, all);
+
+    var wb = $("warnbar");
+    if (!FX.live && state.outCcy !== CONFIG.planCcy){
+      wb.hidden = false;
+      wb.textContent = "Live exchange rates could not be loaded, so this total uses static reference rates. Refresh rates under question 8 before quoting.";
+    } else if (!FX.live && CONFIG.planCcy !== "USD"){
+      wb.hidden = false;
+      wb.textContent = "Live exchange rates could not be loaded. Message charges are billed in USD, so the total uses a static reference rate. Refresh rates under question 8 before quoting.";
+    } else { wb.hidden = true; }
+
+    var box = $("lines");
+    box.innerHTML = "";
+    addGroup(box, "Subscription — billed on your plan cycle", pick.subLines, pick.subOut, "Subscription subtotal");
+    addGroup(box, "Messages — from your prepaid wallet", pick.msgLines, pick.msgOut, "Wallet subtotal");
+
+    var g = $("grand");
+    g.textContent = fmtOut(pick.totalOut);
+    $("cycleLabel").textContent = (state.cycle === "annual" ? "plan billed annually" : "plan billed monthly") +
+      " \u00b7 shown in " + state.outCcy;
+    if (lastGrand !== null && Math.round(pick.totalOut) !== lastGrand){
+      g.classList.remove("pulse"); void g.offsetWidth; g.classList.add("pulse");
+    }
+    lastGrand = Math.round(pick.totalOut);
+    $("mbPlan").textContent = "Wati " + pick.plan.label;
+    $("mbTotal").textContent = fmtOut(pick.totalOut);
+
+    var mk = conv(pick.volumes.marketing * rateFor(pick.key,"marketing",state.country), "USD", state.outCcy);
+    var ut = conv(pick.volumes.utility * rateFor(pick.key,"utility",state.country) +
+                  pick.volumes.authentication * rateFor(pick.key,"authentication",state.country), "USD", state.outCcy);
+    var addons = pick.subOut - pick.platformOut - pick.seatOut;
+    var parts = [
+      { v:pick.platformOut, label:"Plan", color:"var(--black)" },
+      { v:mk,               label:"Marketing", color:"var(--blue)" },
+      { v:ut,               label:"Utility & OTP", color:"var(--green)" },
+      { v:pick.seatOut + Math.max(0,addons), label:"Users & add-ons", color:"var(--yellow)" }
+    ];
+    var sum = parts.reduce(function(s,p){ return s + (isNaN(p.v)?0:p.v); },0) || 1;
+    var bars = $("comp").children;
+    parts.forEach(function(p,i){
+      var w = isNaN(p.v) ? 0 : p.v/sum*100;
+      bars[i].style.width = w + "%";
+      bars[i].style.background = p.color;
+    });
+    $("clegend").innerHTML = parts.filter(function(p){ return p.v > 0; }).map(function(p){
+      return '<span><i style="background:'+p.color+'"></i>'+p.label+' <b>'+Math.round(p.v/sum*100)+'%</b></span>';
+    }).join("");
+
+    var totalMsgs = pick.volumes.total;
+    $("blended").textContent = totalMsgs
+      ? (function(){
+          var v = pick.totalOut/totalMsgs;
+          if (isNaN(v)) return "—";
+          try { return new Intl.NumberFormat(undefined,{style:"currency",currency:state.outCcy,
+            minimumFractionDigits:4,maximumFractionDigits:4}).format(v); }
+          catch(e){ return state.outCcy + " " + v.toFixed(4); }
+        })()
+      : "—";
+    $("yearly").textContent = fmtOut(pick.totalOut * 12);
+
+    renderPlans(all, pick);
+    renderFx();
+    window.__pick = pick;
+  }
+
+  function addGroup(box, title, lines, subtotalOut, subtotalLabel){
+    if (!lines.length) return;
+    var h = document.createElement("div");
+    h.className = "ghead"; h.textContent = title;
+    box.appendChild(h);
+    lines.forEach(function(l){
+      var row = document.createElement("div");
+      row.className = "line" + (l.extra ? " extra" : "") + (l.free ? " free" : "");
+      var n = document.createElement("span");
+      n.className = "l-name";
+      n.appendChild(document.createTextNode(l.name));
+      if (l.sub){
+        var s = document.createElement("span");
+        s.className = "l-sub"; s.textContent = l.sub;
+        n.appendChild(s);
+      }
+      var a = document.createElement("span");
+      a.className = "l-amt";
+      a.textContent = l.free ? "Free"
+        : fmtOut(conv(l.amount, l.ccy === "plan" ? CONFIG.planCcy : "USD", state.outCcy));
+      row.appendChild(n); row.appendChild(a);
+      box.appendChild(row);
+    });
+    var st = document.createElement("div");
+    st.className = "stot";
+    st.innerHTML = "<span>" + subtotalLabel + '</span><span class="v">' + fmtOut(subtotalOut) + "</span>";
+    box.appendChild(st);
+  }
+
+  function verdictText(pick, all){
+    if (!pick.eligible){
+      return "None of the standard plans covers this, so it needs a custom quote. Closest fit shown.";
+    }
+    var bits = ["<b>" + pick.plan.label + "</b> is the cheapest plan that meets your requirements."];
+    var blocked = PLAN_ORDER.map(function(k){ return all[k]; }).filter(function(e){ return !e.eligible; });
+    if (blocked.length === 1){
+      var r = blocked[0].reasons[0];
+      bits.push(blocked[0].plan.label + " is out: " + r.charAt(0).toLowerCase() + r.slice(1));
+    } else if (blocked.length > 1){
+      bits.push(blocked.map(function(b){ return b.plan.label; }).join(" and ") + " don't qualify.");
+    }
+    if (pick.msgOut > pick.subOut && pick.totalOut > 0){
+      bits.push("Messages are " + Math.round(pick.msgOut/pick.totalOut*100) + "% of the cost — the subscription is the small part.");
+    }
+    return bits.join(" ");
+  }
+
+  function renderPlans(all, pick){
+    var wrap = $("plans");
+    wrap.innerHTML = "";
+    PLAN_ORDER.forEach(function(k){
+      var e = all[k];
+      var card = document.createElement("div");
+      card.className = "plan " + k + (e.key === pick.key ? " best" : "") + (e.eligible ? "" : " out");
+
+      var top = document.createElement("div");
+      top.className = "p-top";
+      var h = document.createElement("h3"); h.textContent = e.plan.label;
+      top.appendChild(h);
+      if (e.key === pick.key && e.eligible){
+        var t = document.createElement("span"); t.className = "tag"; t.textContent = "Best fit"; top.appendChild(t);
+      } else if (!e.eligible){
+        var no = document.createElement("span"); no.className = "tag no"; no.textContent = "Doesn't fit"; top.appendChild(no);
+      }
+      card.appendChild(top);
+
+      var tot = document.createElement("div");
+      tot.className = "p-tot num";
+      tot.innerHTML = fmtOut(e.totalOut) + "<small>per month, all in</small>";
+      card.appendChild(tot);
+
+      var facts = document.createElement("ul");
+      facts.className = "p-facts";
+      [
+        "Plan " + fmtOut(e.platformOut),
+        e.extraSeats > 0 && e.plan.extraSeat !== null
+          ? e.extraSeats + " extra " + (e.extraSeats===1?"user ":"users ") + fmtOut(e.seatOut)
+          : e.plan.seats + " users included" + (e.plan.extraSeat === null ? ", no extras possible" : ""),
+        "Messages " + fmtOut(e.msgOut) + ", marketing at " + usdRate(e.marketingRate),
+        e.trigPacks > 0
+          ? "Trigger top-ups " + money(e.trigPacks * CONFIG.triggerPack.price)
+          : count(e.plan.triggers) + " triggers, enough for you"
+      ].forEach(function(r){
+        var li = document.createElement("li"); li.textContent = r; facts.appendChild(li);
+      });
+      card.appendChild(facts);
+
+      if (!e.eligible){
+        e.reasons.forEach(function(r){
+          var p = document.createElement("p"); p.className = "p-why"; p.textContent = r; card.appendChild(p);
+        });
+      }
+      wrap.appendChild(card);
+    });
+  }
+
+  /* ============================================================
+     Wiring
+     ============================================================ */
+  function pair(rangeId, numId, key, opts){
+    opts = opts || {};
+    var r = $(rangeId), n = $(numId);
+    function set(v, from){
+      v = Math.max(0, isFinite(v) ? v : 0);
+      if (opts.min !== undefined) v = Math.max(opts.min, v);
+      if (opts.max !== undefined) v = Math.min(opts.max, v);
+      state[key] = v;
+      if (from !== "range") r.value = Math.min(v, Number(r.max));
+      if (from !== "num") n.value = v;
+      render();
+    }
+    r.addEventListener("input", function(){ set(Number(r.value), "range"); });
+    n.addEventListener("input", function(){ set(Number(n.value), "num"); });
+    return function(v){ set(v); };
+  }
+
+  pair("numbersRange","numbersNum","numbers",{min:1});
+  var setAgents = pair("agentsRange","agentsNum","agents",{min:1});
+  var setMkt    = pair("mktRange","mktNum","mkt");
+  var setUtil   = pair("utilRange","utilNum","util");
+  var setAuth   = pair("authRange","authNum","auth");
+  pair("freeWindowRange","freeWindow","freeWindow",{max:100});
+  var setTrig   = pair("trigRange","trigNum","triggers");
+  pair("aiRange","aiNum","aiCredits");
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-usecase]"), function(btn){
+    btn.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll("[data-usecase]"), function(b){
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+      state.useCase = btn.dataset.usecase;
+      var p = PRESETS[state.useCase];
+      setMkt(p.mkt); setUtil(p.util); setAuth(p.auth); setAgents(p.agents); setTrig(p.trig);
+      $("needAdvanced").checked = p.advanced;
+      state.needAdvanced = p.advanced;
+      render();
+    });
+  });
+
+  $("needAdvanced").addEventListener("change", function(){ state.needAdvanced = this.checked; render(); });
+  $("needShopify").addEventListener("change", function(){ state.needShopify = this.checked; render(); });
+
+  $("cycleAnnual").addEventListener("click", function(){ setCycle("annual"); });
+  $("cycleMonthly").addEventListener("click", function(){ setCycle("monthly"); });
+  function setCycle(c){
+    state.cycle = c;
+    $("cycleAnnual").setAttribute("aria-pressed", String(c === "annual"));
+    $("cycleMonthly").setAttribute("aria-pressed", String(c === "monthly"));
+    render();
+  }
+
+  // recipient country — every country on the rate card
+  (function(){
+    var sel = $("country");
+    Object.keys(RATES).forEach(function(iso){
+      var o = document.createElement("option");
+      o.value = iso; o.textContent = NAMES[iso] || iso;
+      sel.appendChild(o);
+    });
+    sel.value = state.country;
+    sel.addEventListener("change", function(){ state.country = this.value; render(); });
+  })();
+
+  // output currency — the region's countries, plus the billing currency
+  function rebuildCcyOptions(){
+    var sel = $("outCcy");
+    var keep = state.outCcy;
+    sel.innerHTML = "";
+    var seen = {};
+    function add(text, ccy, group){
+      if (seen[ccy + "|" + text]) return;
+      seen[ccy + "|" + text] = 1;
+      var o = document.createElement("option");
+      o.value = ccy;
+      var ok = ccyAvailable(ccy);
+      o.textContent = text + (ok ? "" : "  (rate unavailable)");
+      o.disabled = !ok;
+      (group || sel).appendChild(o);
+    }
+    add(CONFIG.planCcy + " — how Wati bills this region", CONFIG.planCcy);
+    var g = document.createElement("optgroup");
+    g.label = CONFIG.region + " local currencies";
+    CONFIG.currencies.forEach(function(c){ add(c.country + " — " + c.ccy, c.ccy, g); });
+    sel.appendChild(g);
+    if (!ccyAvailable(keep)) keep = CONFIG.planCcy;
+    sel.value = keep; state.outCcy = keep;
+  }
+  $("outCcy").addEventListener("change", function(){ state.outCcy = this.value; render(); });
+
+  /* ---------------- export ---------------- */
+  $("pdfBtn").addEventListener("click", function(){ window.print(); });
+  $("copyBtn").addEventListener("click", function(){
+    var p = window.__pick;
+    function pad(name, amt){
+      var gap = Math.max(2, 58 - name.length);
+      return "  " + name + new Array(gap + 1).join(" ") + amt;
+    }
+    function amt(l){
+      return l.free ? "Free" : fmtOut(conv(l.amount, l.ccy === "plan" ? CONFIG.planCcy : "USD", state.outCcy));
+    }
+    var out = [];
+    out.push("WATI COST ESTIMATE \u2014 " + CONFIG.region.toUpperCase() + " \u2014 " + new Date().toLocaleDateString());
+    out.push("Recommended plan: " + p.plan.label + (state.cycle === "annual" ? " (billed annually)" : " (billed monthly)"));
+    out.push("Customers in: " + (NAMES[state.country] || state.country));
+    out.push("Quoted in: " + state.outCcy + (state.outCcy === CONFIG.planCcy ? "" :
+      "  (Wati bills this region in " + CONFIG.planCcy + ")"));
+    out.push("");
+    out.push("Requirements");
+    out.push(pad("WhatsApp numbers", count(state.numbers)));
+    out.push(pad("Team members with access", count(state.agents)));
+    out.push(pad("Marketing messages a month", count(state.mkt)));
+    out.push(pad("Utility messages a month", count(state.util) + (state.freeWindow ? " (" + state.freeWindow + "% inside the free service window)" : "")));
+    out.push(pad("Authentication messages a month", count(state.auth)));
+    out.push(pad("Automation triggers a month", count(state.triggers)));
+    if (state.aiCredits) out.push(pad("AI Co-pilot credits a month", count(state.aiCredits)));
+    out.push("");
+    out.push("Subscription \u2014 billed on your plan cycle");
+    p.subLines.forEach(function(l){ out.push(pad(l.name + (l.sub ? " (" + l.sub + ")" : ""), amt(l))); });
+    out.push(pad("Subscription subtotal", fmtOut(p.subOut)));
+    out.push("");
+    out.push("Messages \u2014 from your prepaid wallet");
+    p.msgLines.forEach(function(l){ out.push(pad(l.name + (l.sub ? " (" + l.sub + ")" : ""), amt(l))); });
+    out.push(pad("Wallet subtotal", fmtOut(p.msgOut)));
+    out.push("");
+    out.push(pad("TOTAL PER MONTH", fmtOut(p.totalOut)));
+    out.push(pad("Total per year", fmtOut(p.totalOut * 12)));
+    out.push("");
+    if (!p.eligible) out.push("Note: no standard plan meets these requirements \u2014 this needs a custom quote.");
+    out.push("Service conversations, CTWA-initiated chats and utility replies inside the");
+    out.push("24-hour service window are free and are not billed above.");
+    out.push("Message rates from the Wati usage rate card for " + CONFIG.region + ", effective 1 July 2026.");
+    if (state.outCcy !== "USD" || CONFIG.planCcy !== "USD"){
+      out.push(FX.live
+        ? "Converted at the live rate on " + FX.when.toLocaleString() + " (" + FX.source + ")."
+        : "WARNING: live exchange rates unavailable \u2014 static reference rates used. Do not quote.");
+    }
+    var text = out.join("\n");
+
+    var btn = this;
+    function done(ok){
+      btn.textContent = ok ? "Copied" : "Copy failed";
+      setTimeout(function(){ btn.textContent = "Copy estimate"; }, 1800);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, fallback);
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch(e){}
+      document.body.removeChild(ta);
+      done(ok);
+    }
+  });
+
+  rebuildCcyOptions();
+  render();
+  fetchRates();
+})();
+</script>
+</body>
+</html>
