@@ -485,7 +485,7 @@
     <li>Business volume discounts above roughly a million messages a month aren't modelled. Also
       excluded: Astra AI agents, dedicated onboarding, technical account management, professional
       services, green-tick verification and the Blitz high-throughput add-on — all quoted separately.</li>
-    <li>Exchange rates are fetched live from a public rates API and are indicative, not a dealing rate.
+    <li>Exchange rates come from Frankfurter, falling back to Exchange Rate API. Both publish once a day, so the rate is a daily reference rate, not a dealing rate.
       Wati invoices in USD; your bank's rate on the day will differ slightly.</li>
   </ol>
 </div>
@@ -502,7 +502,7 @@
   /* ============================================================
      Region configuration, generated at build time.
      ============================================================ */
-  var CONFIG = {"region": "USD West", "card": "W", "planCcy": "USD", "planSymbol": "$", "plans": {"growth": {"label": "Growth", "annual": 59, "monthly": 69, "seats": 3, "extraSeat": null, "triggers": 1000, "aiCredits": 250, "broadcastCap": 15000, "numbers": 1, "advanced": false}, "pro": {"label": "Pro", "annual": 119, "monthly": 149, "seats": 5, "extraSeat": 39, "triggers": 2000, "aiCredits": 500, "broadcastCap": null, "numbers": 1, "advanced": true}, "business": {"label": "Business", "annual": 279, "monthly": 349, "seats": 5, "extraSeat": 89, "triggers": 5000, "aiCredits": 1500, "broadcastCap": null, "numbers": null, "advanced": true}}, "triggerPack": {"size": 1000, "price": 40}, "aiPack": {"size": 1000, "price": 30}, "extraNumber": 29, "shopifyUsd": 4.99, "currencies": [{"country": "United States", "ccy": "USD"}, {"country": "Canada", "ccy": "CAD"}, {"country": "Australia", "ccy": "AUD"}, {"country": "Iceland", "ccy": "ISK"}, {"country": "Norway", "ccy": "NOK"}, {"country": "South Africa", "ccy": "ZAR"}], "fallbackRates": {"USD": 1, "EUR": 0.86, "GBP": 0.75, "CHF": 0.8, "SEK": 9.6, "DKK": 6.4, "NOK": 10.3, "ISK": 137, "PLN": 3.7, "CZK": 21, "HUF": 350, "RON": 4.3, "BGN": 1.69, "RSD": 101, "MKD": 53, "BAM": 1.69, "GEL": 2.7, "BYN": 3.3, "ALL": 84, "AMD": 385, "AZN": 1.7, "KZT": 520, "MDL": 17, "RUB": 80, "UAH": 41, "CAD": 1.37, "AUD": 1.53, "ZAR": 18, "AED": 3.6725, "SAR": 3.75, "QAR": 3.64, "KWD": 0.306, "BHD": 0.376, "OMR": 0.3845, "JOD": 0.709, "ILS": 3.4, "EGP": 48.5, "TRY": 40, "IQD": 1310, "IRR": 42000, "LBP": 89500, "SYP": 13000, "YER": 250, "IDR": 16200, "PHP": 57, "THB": 33, "VND": 25500, "BND": 1.29, "KHR": 4050, "LAK": 21700, "MMK": 2100, "NGN": 1550, "KES": 129, "GHS": 12, "ZMW": 26, "TZS": 2600, "UGX": 3650, "ETB": 130, "DZD": 133, "TND": 3.0, "LYD": 4.85, "XOF": 565, "XAF": 565, "MZN": 64, "BWP": 13.5, "NAD": 18, "MUR": 46, "MWK": 1750, "MGA": 4500, "RWF": 1350, "CDF": 2850, "SDG": 600, "SOS": 570, "SSP": 4500, "SCR": 14, "SLE": 23, "GMD": 72, "GNF": 8600, "LRD": 195, "CVE": 95, "STN": 21, "ERN": 15, "SZL": 18, "LSL": 18, "DJF": 178, "KMF": 440, "BIF": 2950, "AOA": 900, "MRU": 40, "ZWG": 26}};
+  var CONFIG = {"region": "USD West", "card": "W", "planCcy": "USD", "planSymbol": "$", "plans": {"growth": {"label": "Growth", "annual": 59, "monthly": 69, "seats": 3, "extraSeat": null, "triggers": 1000, "aiCredits": 250, "broadcastCap": 15000, "numbers": 1, "advanced": false}, "pro": {"label": "Pro", "annual": 119, "monthly": 149, "seats": 5, "extraSeat": 39, "triggers": 2000, "aiCredits": 500, "broadcastCap": null, "numbers": 1, "advanced": true}, "business": {"label": "Business", "annual": 279, "monthly": 349, "seats": 5, "extraSeat": 89, "triggers": 5000, "aiCredits": 1500, "broadcastCap": null, "numbers": null, "advanced": true}}, "triggerPack": {"size": 1000, "price": 40}, "aiPack": {"size": 1000, "price": 30}, "extraNumber": 29, "shopifyUsd": 4.99, "currencies": [{"country": "United States", "ccy": "USD"}, {"country": "Canada", "ccy": "CAD"}, {"country": "Australia", "ccy": "AUD"}, {"country": "Iceland", "ccy": "ISK"}, {"country": "Norway", "ccy": "NOK"}, {"country": "South Africa", "ccy": "ZAR"}], "fallbackRates": {"AED": 3.6725, "ALL": 80.47, "AMD": 365.99, "AOA": 917.45, "AUD": 1.4168, "AZN": 1.6995, "BAM": 1.6942, "BGN": 1.6942, "BHD": 0.376, "BIF": 2995.47, "BND": 1.2798, "BWP": 13.2298, "BYN": 2.9674, "CAD": 1.3927, "CDF": 2278.48, "CHF": 0.8118, "CVE": 95.51, "CZK": 21.01, "DJF": 177.24, "DKK": 6.4776, "DZD": 132.93, "EGP": 50.197, "ERN": 15.2284, "ETB": 160.46, "EUR": 0.86621, "GBP": 0.74026, "GEL": 2.6135, "GHS": 11.6183, "GMD": 73.336, "GNF": 8270, "HUF": 315.7, "IDR": 17850, "ILS": 2.9926, "IQD": 1309.61, "IRR": 1370869, "ISK": 122.98, "JOD": 0.709, "KES": 129.1, "KHR": 4051.61, "KMF": 426.67, "KWD": 0.30781, "KZT": 465.56, "LAK": 22518, "LBP": 89899, "LRD": 181.74, "LSL": 16.15, "LYD": 6.3708, "MDL": 17.3256, "MGA": 4281.72, "MKD": 53.307, "MMK": 2097.84, "MRU": 40.128, "MUR": 47.13, "MWK": 1737.0, "MZN": 63.635, "NAD": 16.1578, "NGN": 1362.05, "NOK": 9.4901, "OMR": 0.3845, "PHP": 61.188, "PLN": 3.7291, "QAR": 3.64, "RON": 4.5408, "RSD": 101.69, "RUB": 82.76, "RWF": 1471.74, "SAR": 3.75, "SCR": 14.2034, "SDG": 600.15, "SEK": 9.5305, "SLE": 24.483, "SOS": 571.47, "SSP": 5372, "STN": 21.335, "SYP": 122.03, "SZL": 16.1582, "THB": 33.078, "TND": 2.9316, "TRY": 47.751, "TZS": 2642.62, "UAH": 44.724, "UGX": 3717.53, "USD": 1, "VND": 26034, "XAF": 568.2, "XOF": 568.2, "YER": 237.22, "ZAR": 16.1342, "ZMW": 18.7468, "ZWG": 26.57}, "fallbackAsOf": "13 August 2026"};
 
   /* Per-country per-message rates in USD, from the region's usage rate card
      (1 July 2026).  ISO: [growthPro mkt,util,auth, business mkt,util,auth] */
@@ -588,37 +588,53 @@
   function $(id){ return document.getElementById(id); }
 
   /* ---------------- live rates ---------------- */
-  function applyRates(map, source){
+  function applyRates(map, source, url, asOf){
     var clean = {};
     Object.keys(map).forEach(function(k){
       var v = map[k];
       if (typeof v === "number" && isFinite(v) && v > 0) clean[k.toUpperCase()] = v;
     });
     clean.USD = 1;
-    FX.rates = clean; FX.live = true; FX.when = new Date(); FX.source = source;
+    FX.rates = clean; FX.live = true; FX.when = new Date();
+    FX.source = source; FX.url = url; FX.asOf = asOf || null;
   }
 
+  // Two independent public endpoints, both key-free, HTTPS and CORS-enabled, so
+  // this works from any static host. cache:"no-store" plus a cache-buster makes
+  // the Refresh button actually re-request instead of replaying a cached body.
   function fetchRates(){
     renderFx("loading");
-    var a = "https://open.er-api.com/v6/latest/USD";
-    var b = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json";
-    fetch(a).then(function(r){
+    var bust = "_=" + Date.now();
+    var opts = { cache:"no-store", mode:"cors" };
+
+    var primary = "https://api.frankfurter.dev/v2/rates?base=USD&" + bust;
+    var secondary = "https://open.er-api.com/v6/latest/USD?" + bust;
+
+    fetch(primary, opts).then(function(r){
       if (!r.ok) throw new Error("http " + r.status);
       return r.json();
     }).then(function(j){
-      if (!j || !j.rates) throw new Error("shape");
-      applyRates(j.rates, "open.er-api.com");
+      if (!Array.isArray(j) || !j.length) throw new Error("shape");
+      var map = {}, newest = null;
+      j.forEach(function(row){
+        if (row && row.quote) map[row.quote] = row.rate;
+        if (row && row.date && (!newest || row.date > newest)) newest = row.date;
+      });
+      if (!map.EUR) throw new Error("empty");
+      applyRates(map, "Frankfurter", "https://frankfurter.dev", newest);
       rebuildCcyOptions(); render();
     }).catch(function(){
-      fetch(b).then(function(r){
+      fetch(secondary, opts).then(function(r){
         if (!r.ok) throw new Error("http " + r.status);
         return r.json();
       }).then(function(j){
-        if (!j || !j.usd) throw new Error("shape");
-        applyRates(j.usd, "currency-api");
+        if (!j || !j.rates) throw new Error("shape");
+        var d = j.time_last_update_utc
+          ? new Date(j.time_last_update_utc).toISOString().slice(0,10) : null;
+        applyRates(j.rates, "Exchange Rate API", "https://www.exchangerate-api.com", d);
         rebuildCcyOptions(); render();
       }).catch(function(){
-        FX.rates = null; FX.live = false;
+        FX.rates = null; FX.live = false; FX.source = null; FX.asOf = null;
         rebuildCcyOptions(); render();
       });
     });
@@ -637,10 +653,14 @@
     var bits = [];
     if (per) bits.push(per);
     if (FX.live){
-      bits.push("live rate, " + FX.when.toLocaleString(undefined,{dateStyle:"medium",timeStyle:"short"}));
-      bits.push("via " + FX.source);
+      // These feeds publish once a day, so show the rate's own date rather than
+      // implying a live tick. Refresh is for recovering a failed load or picking
+      // up the next daily publication.
+      bits.push(FX.asOf ? ("rate dated " + FX.asOf) : "latest published rate");
+      bits.push('rates by <a href="' + FX.url + '" target="_blank" rel="noopener">' + FX.source + '</a>');
     } else {
-      bits.push('<span class="fxbad">Live rates unavailable — static reference rates in use. Do not quote from this.</span>');
+      bits.push('<span class="fxbad">Live rates unavailable — offline reference rates from ' +
+        CONFIG.fallbackAsOf + ' in use. Do not quote from this.</span>');
     }
     el.innerHTML = bits.join(" · ") + ' <button type="button" id="fxRetry">Refresh rates</button>';
     $("fxRetry").addEventListener("click", fetchRates);
