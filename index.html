@@ -112,6 +112,17 @@
   .check input[type=checkbox]{margin:4px 0 0;width:17px;height:17px;accent-color:var(--green);flex:none}
   .check label{font-size:.94rem;font-weight:500}
 
+  .cards{margin-top:15px;padding-top:14px;border-top:1px solid var(--rule-soft)}
+  .cards h4{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 9px}
+  .cards ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+  .cards a{display:inline-flex;align-items:center;gap:7px;font-size:.86rem;font-weight:500;
+    padding:7px 13px;border:1.5px solid var(--rule);border-radius:999px;background:var(--card);
+    color:var(--black);text-decoration:none}
+  .cards a:hover{border-color:var(--green);background:var(--green-soft)}
+  .cards a::before{content:"\1F4C4";font-size:13px}
+  .cards a span{color:var(--muted);font-weight:400}
+  .cards p{margin:9px 0 0;font-size:.8rem;color:var(--muted)}
   .freebox{background:var(--green-soft);border-radius:11px;padding:16px 18px;margin-top:20px}
   .freebox h3{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
   .freebox ul{margin:11px 0 0;padding-left:18px;font-size:.88rem}
@@ -131,6 +142,16 @@
   .receipt{background:var(--card);border:1px solid var(--rule);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
   .r-head{padding:22px 24px 18px;background:var(--green-soft)}
   .r-head h2{font-size:1.6rem;margin-top:6px}
+  .planpick{display:flex;gap:5px;margin-top:13px;background:rgba(255,255,255,.55);
+    border-radius:999px;padding:4px}
+  .planpick button{flex:1;font-family:var(--font);font-size:12px;font-weight:600;padding:6px 4px;
+    border:0;background:transparent;color:var(--ink-soft);cursor:pointer;border-radius:999px;white-space:nowrap}
+  .planpick button[aria-pressed="true"]{background:var(--black);color:#fff}
+  .planpick button:focus-visible{outline:2px solid var(--black);outline-offset:1px}
+  .pinned{background:var(--yellow);color:var(--black);font-size:12px;font-weight:500;
+    padding:10px 24px;line-height:1.45}
+  .pinned[hidden]{display:none}
+  .pinned b{font-weight:700}
   .verdict{margin:11px 0 0;font-size:.88rem;color:var(--ink-soft)}
   .verdict b{color:var(--black);font-weight:700}
   .warnbar{background:var(--warn);color:#fff;font-size:12px;font-weight:500;padding:9px 24px;line-height:1.4}
@@ -257,6 +278,7 @@
       <label for="country" class="sr">Country your customers are in</label>
       <select id="country"></select>
       <span class="hint" id="countryHint" style="margin-top:9px"></span>
+      <div class="cards" id="rateCards"></div>
     </section>
 
     <section class="q">
@@ -434,7 +456,14 @@
         <span class="label">Estimated monthly cost</span>
         <h2 id="planName">Wati Pro</h2>
         <p class="verdict" id="verdict"></p>
+        <div class="planpick" id="planPick" role="group" aria-label="Which plan to quote">
+          <button type="button" data-plan="auto" aria-pressed="true">Best fit</button>
+          <button type="button" data-plan="growth" aria-pressed="false">Growth</button>
+          <button type="button" data-plan="pro" aria-pressed="false">Pro</button>
+          <button type="button" data-plan="business" aria-pressed="false">Business</button>
+        </div>
       </div>
+      <div class="pinned" id="pinned" hidden></div>
       <div class="warnbar" id="warnbar" hidden></div>
       <div class="lines" id="lines"></div>
       <div class="totals">
@@ -474,6 +503,11 @@
       1 July 2026, and are charged on the recipient's country. Each plan tier has its own rates —
       the higher tiers are cheaper per message.</li>
     <li>Message rates are quoted in USD on the rate card. Where the plan is billed in another currency, the two are converted into your chosen output currency at today's rate, shown under question 8. Service messages have their own per-country rate, lower than the utility rate.</li>
+    <li>The rate cards this calculator is built from are linked under question 1, so you can open the
+      source document on a call rather than quoting from memory.</li>
+    <li>The estimate picks the cheapest plan that meets your requirements, but you can pin a specific
+      plan in the receipt to quote a higher tier. If a pinned plan can't cover the requirements entered,
+      the costs it can't carry are left out of the total and flagged above it.</li>
     <li>Growth's 15,000-broadcast monthly cap is checked against marketing plus utility volume.
       Authentication messages are API-triggered one-to-one and aren't treated as broadcasts. Pro and
       Business have no broadcast cap.</li>
@@ -503,7 +537,7 @@
   /* ============================================================
      Region configuration, generated at build time.
      ============================================================ */
-  var CONFIG = {"region": "USD West", "card": "W", "planCcy": "USD", "planSymbol": "$", "cycles": [{"key": "annual", "label": "Annual", "sub": "plan billed annually"}, {"key": "monthly", "label": "Monthly", "sub": "plan billed monthly"}], "rateCcy": "USD", "rateSymbol": "$", "payg": null, "plans": {"growth": {"label": "Growth", "prices": {"annual": 59, "monthly": 69}, "seats": 3, "extraSeat": null, "triggers": 1000, "aiCredits": 250, "broadcastCap": 15000, "numbers": 1, "advanced": false}, "pro": {"label": "Pro", "prices": {"annual": 119, "monthly": 149}, "seats": 5, "extraSeat": 39, "triggers": 2000, "aiCredits": 500, "broadcastCap": null, "numbers": 1, "advanced": true}, "business": {"label": "Business", "prices": {"annual": 279, "monthly": 349}, "seats": 5, "extraSeat": 89, "triggers": 5000, "aiCredits": 1500, "broadcastCap": null, "numbers": null, "advanced": true}}, "triggerPack": {"size": 1000, "price": 40}, "aiPack": {"size": 1000, "price": 30}, "extraNumber": 29, "shopifyUsd": 4.99, "currencies": [{"country": "United States", "ccy": "USD"}, {"country": "Canada", "ccy": "CAD"}, {"country": "Australia", "ccy": "AUD"}, {"country": "Iceland", "ccy": "ISK"}, {"country": "Norway", "ccy": "NOK"}, {"country": "South Africa", "ccy": "ZAR"}], "fallbackRates": {"AED": 3.6725, "AFN": 65.108, "ALL": 80.47, "AMD": 365.99, "ANG": 1.79, "AOA": 917.45, "ARS": 1491.32, "AUD": 1.4168, "AWG": 1.7901, "AZN": 1.6995, "BAM": 1.6942, "BBD": 2.0327, "BDT": 123.31, "BGN": 1.6942, "BHD": 0.376, "BIF": 2995.47, "BMD": 1.0, "BND": 1.2798, "BOB": 11.7309, "BRL": 5.159, "BSD": 1.0105, "BTN": 95.35, "BWP": 13.2298, "BYN": 2.9674, "BZD": 2.0317, "CAD": 1.3927, "CDF": 2278.48, "CHF": 0.8118, "CLP": 913.97, "CNY": 6.741, "COP": 3129.33, "CRC": 451.38, "CUP": 24.0, "CVE": 95.51, "CZK": 21.01, "DJF": 177.24, "DKK": 6.4776, "DOP": 59.2, "DZD": 132.93, "EGP": 50.197, "ERN": 15.2284, "ETB": 160.46, "EUR": 0.86621, "FJD": 2.2187, "FKP": 0.74026, "GBP": 0.74026, "GEL": 2.6135, "GGP": 0.74026, "GHS": 11.6183, "GIP": 0.74768, "GMD": 73.336, "GNF": 8270, "GTQ": 7.628, "GYD": 210.97, "HKD": 7.8533, "HNL": 26.814, "HTG": 130.71, "HUF": 315.7, "IDR": 17850, "ILS": 2.9926, "IMP": 0.74026, "INR": 95.35, "IQD": 1309.61, "IRR": 1370869, "ISK": 122.98, "JEP": 0.74026, "JMD": 157.0, "JOD": 0.709, "JPY": 159.27, "KES": 129.1, "KGS": 87.47, "KHR": 4051.61, "KMF": 426.67, "KRW": 1416.19, "KWD": 0.30781, "KYD": 0.8372, "KZT": 465.56, "LAK": 22518, "LBP": 89899, "LKR": 333.63, "LRD": 181.74, "LSL": 16.15, "LYD": 6.3708, "MAD": 9.3001, "MDL": 17.3256, "MGA": 4281.72, "MKD": 53.307, "MMK": 2097.84, "MNT": 3596.39, "MOP": 8.0889, "MRU": 40.128, "MUR": 47.13, "MVR": 15.3995, "MWK": 1737.0, "MXN": 17.0699, "MYR": 4.0867, "MZN": 63.635, "NAD": 16.1578, "NGN": 1362.05, "NIO": 36.779, "NOK": 9.4901, "NPR": 152.58, "NZD": 1.7046, "OMR": 0.3845, "PEN": 3.3669, "PGK": 4.4256, "PHP": 61.188, "PKR": 278.35, "PLN": 3.7291, "PYG": 5967, "QAR": 3.64, "RON": 4.5408, "RSD": 101.69, "RUB": 82.76, "RWF": 1471.74, "SAR": 3.75, "SBD": 8.0122, "SCR": 14.2034, "SDG": 600.15, "SEK": 9.5305, "SGD": 1.2798, "SHP": 0.74026, "SLE": 24.483, "SOS": 571.47, "SRD": 37.943, "SSP": 5372, "STN": 21.335, "SYP": 122.03, "SZL": 16.1582, "THB": 33.078, "TJS": 9.2376, "TMT": 3.5, "TND": 2.9316, "TOP": 2.3642, "TRY": 47.751, "TTD": 6.747, "TWD": 32.209, "TZS": 2642.62, "UAH": 44.724, "UGX": 3717.53, "USD": 1, "UYU": 40.262, "UZS": 11923, "VES": 762.7, "VND": 26034, "VUV": 117.19, "WST": 2.7118, "XAF": 568.2, "XCD": 2.7392, "XCG": 1.7962, "XOF": 568.2, "XPF": 103.4, "YER": 237.22, "ZAR": 16.1342, "ZMW": 18.7468, "ZWG": 26.57}, "fallbackAsOf": "13 August 2026", "serviceFree": 1000};
+  var CONFIG = {"region": "USD West", "card": "W", "planCcy": "USD", "planSymbol": "$", "cycles": [{"key": "annual", "label": "Annual", "sub": "plan billed annually"}, {"key": "monthly", "label": "Monthly", "sub": "plan billed monthly"}], "rateCcy": "USD", "rateSymbol": "$", "payg": null, "plans": {"growth": {"label": "Growth", "prices": {"annual": 59, "monthly": 69}, "seats": 3, "extraSeat": null, "triggers": 1000, "aiCredits": 250, "broadcastCap": 15000, "numbers": 1, "advanced": false}, "pro": {"label": "Pro", "prices": {"annual": 119, "monthly": 149}, "seats": 5, "extraSeat": 39, "triggers": 2000, "aiCredits": 500, "broadcastCap": null, "numbers": 1, "advanced": true}, "business": {"label": "Business", "prices": {"annual": 279, "monthly": 349}, "seats": 5, "extraSeat": 89, "triggers": 5000, "aiCredits": 1500, "broadcastCap": null, "numbers": null, "advanced": true}}, "triggerPack": {"size": 1000, "price": 40}, "aiPack": {"size": 1000, "price": 30}, "extraNumber": 29, "shopifyUsd": 4.99, "currencies": [{"country": "United States", "ccy": "USD"}, {"country": "Canada", "ccy": "CAD"}, {"country": "Australia", "ccy": "AUD"}, {"country": "Iceland", "ccy": "ISK"}, {"country": "Norway", "ccy": "NOK"}, {"country": "South Africa", "ccy": "ZAR"}], "fallbackRates": {"AED": 3.6725, "AFN": 65.108, "ALL": 80.47, "AMD": 365.99, "ANG": 1.79, "AOA": 917.45, "ARS": 1491.32, "AUD": 1.4168, "AWG": 1.7901, "AZN": 1.6995, "BAM": 1.6942, "BBD": 2.0327, "BDT": 123.31, "BGN": 1.6942, "BHD": 0.376, "BIF": 2995.47, "BMD": 1.0, "BND": 1.2798, "BOB": 11.7309, "BRL": 5.159, "BSD": 1.0105, "BTN": 95.35, "BWP": 13.2298, "BYN": 2.9674, "BZD": 2.0317, "CAD": 1.3927, "CDF": 2278.48, "CHF": 0.8118, "CLP": 913.97, "CNY": 6.741, "COP": 3129.33, "CRC": 451.38, "CUP": 24.0, "CVE": 95.51, "CZK": 21.01, "DJF": 177.24, "DKK": 6.4776, "DOP": 59.2, "DZD": 132.93, "EGP": 50.197, "ERN": 15.2284, "ETB": 160.46, "EUR": 0.86621, "FJD": 2.2187, "FKP": 0.74026, "GBP": 0.74026, "GEL": 2.6135, "GGP": 0.74026, "GHS": 11.6183, "GIP": 0.74768, "GMD": 73.336, "GNF": 8270, "GTQ": 7.628, "GYD": 210.97, "HKD": 7.8533, "HNL": 26.814, "HTG": 130.71, "HUF": 315.7, "IDR": 17850, "ILS": 2.9926, "IMP": 0.74026, "INR": 95.35, "IQD": 1309.61, "IRR": 1370869, "ISK": 122.98, "JEP": 0.74026, "JMD": 157.0, "JOD": 0.709, "JPY": 159.27, "KES": 129.1, "KGS": 87.47, "KHR": 4051.61, "KMF": 426.67, "KRW": 1416.19, "KWD": 0.30781, "KYD": 0.8372, "KZT": 465.56, "LAK": 22518, "LBP": 89899, "LKR": 333.63, "LRD": 181.74, "LSL": 16.15, "LYD": 6.3708, "MAD": 9.3001, "MDL": 17.3256, "MGA": 4281.72, "MKD": 53.307, "MMK": 2097.84, "MNT": 3596.39, "MOP": 8.0889, "MRU": 40.128, "MUR": 47.13, "MVR": 15.3995, "MWK": 1737.0, "MXN": 17.0699, "MYR": 4.0867, "MZN": 63.635, "NAD": 16.1578, "NGN": 1362.05, "NIO": 36.779, "NOK": 9.4901, "NPR": 152.58, "NZD": 1.7046, "OMR": 0.3845, "PEN": 3.3669, "PGK": 4.4256, "PHP": 61.188, "PKR": 278.35, "PLN": 3.7291, "PYG": 5967, "QAR": 3.64, "RON": 4.5408, "RSD": 101.69, "RUB": 82.76, "RWF": 1471.74, "SAR": 3.75, "SBD": 8.0122, "SCR": 14.2034, "SDG": 600.15, "SEK": 9.5305, "SGD": 1.2798, "SHP": 0.74026, "SLE": 24.483, "SOS": 571.47, "SRD": 37.943, "SSP": 5372, "STN": 21.335, "SYP": 122.03, "SZL": 16.1582, "THB": 33.078, "TJS": 9.2376, "TMT": 3.5, "TND": 2.9316, "TOP": 2.3642, "TRY": 47.751, "TTD": 6.747, "TWD": 32.209, "TZS": 2642.62, "UAH": 44.724, "UGX": 3717.53, "USD": 1, "UYU": 40.262, "UZS": 11923, "VES": 762.7, "VND": 26034, "VUV": 117.19, "WST": 2.7118, "XAF": 568.2, "XCD": 2.7392, "XCG": 1.7962, "XOF": 568.2, "XPF": 103.4, "YER": 237.22, "ZAR": 16.1342, "ZMW": 18.7468, "ZWG": 26.57}, "fallbackAsOf": "13 August 2026", "serviceFree": 1000, "rateCards": {"folder": "https://drive.google.com/drive/folders/17kJ975f7h7jEdz_sSj0nAeWSUB12asgK", "effective": "1 October 2026", "items": [{"label": "Growth & Pro", "card": "Wati-Pricing-Rate-Card-Growth-Plan-Pro-Plan-USD-W.pdf", "url": "https://drive.google.com/file/d/1dt4sTvjXW12gXOk9y8UL-rxFlBAtNKWX/view"}, {"label": "Business", "card": "Wati-Pricing-Rate-Card-Business-Plan-USD-W.pdf", "url": "https://drive.google.com/file/d/1QBZppg3EJCgcBLvwXSxSQKZSR1VZp_hC/view"}]}};
 
   /* Per-country per-message rates from the region's usage rate card
      (1 July 2026), in CONFIG.rateCcy.  Nine numbers per country:
@@ -546,6 +580,7 @@
     triggers:2000, aiCredits:0,
     needAdvanced:false, needShopify:false,
     cycle:"annual",
+    planPick:"auto",
     outCcy: CONFIG.planCcy
   };
 
@@ -826,7 +861,8 @@
   function render(){
     var all = {};
     PLAN_ORDER.forEach(function(k){ all[k] = estimate(k); });
-    var pick = recommend(all);
+    var best = recommend(all);
+    var pick = (state.planPick === "auto") ? best : all[state.planPick];
 
     var cname = NAMES[state.country] || state.country;
     $("countryHint").innerHTML = "On " + pick.plan.label + ", marketing to " + cname + " costs " +
@@ -842,7 +878,13 @@
       : "Growth covers up to 3. Pro and Business include 5.";
 
     $("planName").textContent = "Wati " + pick.plan.label;
-    $("verdict").innerHTML = verdictText(pick, all);
+    $("verdict").innerHTML = (state.planPick === "auto")
+      ? verdictText(pick, all)
+      : pinnedVerdict(pick, best);
+    Array.prototype.forEach.call($("planPick").children, function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.plan === state.planPick));
+    });
+    renderPinned(pick, best);
 
     var wb = $("warnbar");
     if (!FX.live && state.outCcy !== CONFIG.planCcy){
@@ -935,6 +977,40 @@
     box.appendChild(st);
   }
 
+  // Quoting a tier above what the inputs require is a normal sales move, so the
+  // override always honours the choice. It only warns when the pinned plan
+  // physically cannot do the job, because then the total understates the truth.
+  function pinnedVerdict(pick, best){
+    var bits = ["You've pinned <b>" + pick.plan.label + "</b>."];
+    if (best.key === pick.key){
+      bits.push("That's also the cheapest plan that fits.");
+    } else {
+      var diff = pick.totalOut - best.totalOut;
+      bits.push("Cheapest that fits is <b>" + best.plan.label + "</b> at " + fmtOut(best.totalOut) +
+        ", so this is " + fmtOut(Math.abs(diff)) + (diff >= 0 ? " more" : " less") + " a month.");
+    }
+    return bits.join(" ");
+  }
+
+  function renderPinned(pick, best){
+    var el = $("pinned");
+    if (state.planPick === "auto" || pick.eligible){ el.hidden = true; return; }
+    var lines = pick.reasons.slice();
+    // Costs this plan cannot carry are silently absent from the bill — say so.
+    var missing = [];
+    if (state.agents > pick.plan.seats && pick.plan.extraSeat === null){
+      missing.push((state.agents - pick.plan.seats) + " extra " +
+        (state.agents - pick.plan.seats === 1 ? "user is" : "users are") + " not priced in");
+    }
+    if (state.numbers > 1 && pick.plan.numbers !== null){
+      missing.push((state.numbers - 1) + " extra WhatsApp " +
+        (state.numbers - 1 === 1 ? "number is" : "numbers are") + " not priced in");
+    }
+    el.hidden = false;
+    el.innerHTML = "<b>Heads up \u2014 " + pick.plan.label + " can't cover these requirements.</b> " +
+      lines.join(" ") + (missing.length ? " The total below excludes them: " + missing.join(", ") + "." : "");
+  }
+
   function verdictText(pick, all){
     if (!pick.eligible){
       return "None of the standard plans covers this, so it needs a custom quote. Closest fit shown.";
@@ -971,7 +1047,9 @@
       top.className = "p-top";
       var h = document.createElement("h3"); h.textContent = e.plan.label;
       top.appendChild(h);
-      if (e.key === pick.key && e.eligible){
+      if (state.planPick !== "auto" && e.key === state.planPick){
+        var pin = document.createElement("span"); pin.className = "tag"; pin.textContent = "Quoting"; top.appendChild(pin);
+      } else if (e.key === pick.key && e.eligible){
         var t = document.createElement("span"); t.className = "tag"; t.textContent = "Best fit"; top.appendChild(t);
       } else if (!e.eligible){
         var no = document.createElement("span"); no.className = "tag no"; no.textContent = "Doesn't fit"; top.appendChild(no);
@@ -1051,6 +1129,10 @@
     });
   });
 
+  Array.prototype.forEach.call($("planPick").children, function(b){
+    b.addEventListener("click", function(){ state.planPick = b.dataset.plan; render(); });
+  });
+
   $("needAdvanced").addEventListener("change", function(){ state.needAdvanced = this.checked; render(); });
   $("needShopify").addEventListener("change", function(){ state.needShopify = this.checked; render(); });
 
@@ -1089,6 +1171,34 @@
     });
     sel.value = state.country;
     sel.addEventListener("change", function(){ state.country = this.value; render(); });
+  })();
+
+  // Rate cards for this region, so an AE can open the source document on a call.
+  (function(){
+    var rc = CONFIG.rateCards;
+    if (!rc || !rc.items || !rc.items.length) return;
+    var box = $("rateCards");
+    var h = document.createElement("h4");
+    h.textContent = "The rate cards behind these numbers";
+    box.appendChild(h);
+    var ul = document.createElement("ul");
+    rc.items.forEach(function(it){
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.href = it.url || rc.folder;
+      a.target = "_blank"; a.rel = "noopener";
+      a.appendChild(document.createTextNode(it.label + " "));
+      var s = document.createElement("span");
+      s.textContent = it.card;
+      a.appendChild(s);
+      li.appendChild(a); ul.appendChild(li);
+    });
+    box.appendChild(ul);
+    var p = document.createElement("p");
+    var anyFolder = rc.items.some(function(i){ return !i.url || i.url.indexOf("/folders/") > -1; });
+    p.textContent = "Effective " + rc.effective + "." +
+      (anyFolder ? " Where a link opens a folder, pick the file named on the button." : "");
+    box.appendChild(p);
   })();
 
   // output currency — the region's countries, plus the billing currency
@@ -1130,7 +1240,11 @@
     }
     var out = [];
     out.push("WATI COST ESTIMATE \u2014 " + CONFIG.region.toUpperCase() + " \u2014 " + new Date().toLocaleDateString());
-    out.push("Recommended plan: " + p.plan.label + " (" + cycleSub() + ")");
+    out.push((state.planPick === "auto" ? "Recommended plan: " : "Quoted plan: ") +
+      p.plan.label + " (" + cycleSub() + ")");
+    if (state.planPick !== "auto" && !p.eligible){
+      out.push("NOTE: this plan does not meet every requirement entered \u2014 " + p.reasons.join(" "));
+    }
     out.push("Customers in: " + (NAMES[state.country] || state.country));
     out.push("Quoted in: " + state.outCcy + (state.outCcy === CONFIG.planCcy ? "" :
       "  (Wati bills this region in " + CONFIG.planCcy + ")"));
@@ -1159,7 +1273,9 @@
     if (!p.eligible) out.push("Note: no standard plan meets these requirements \u2014 this needs a custom quote.");
     out.push("Inbound customer messages, the first " + count(CONFIG.serviceFree) + " service messages a month and");
     out.push("CTWA-initiated conversations are free and are not billed above.");
-    out.push("Message rates from the Wati usage rate card for " + CONFIG.region + ", effective 1 July 2026.");
+    out.push("Message rates from the Wati usage rate card for " + CONFIG.region +
+      ", effective " + CONFIG.rateCards.effective + ".");
+    out.push("Rate cards: " + CONFIG.rateCards.folder);
     if (state.outCcy !== CONFIG.planCcy || CONFIG.rateCcy !== CONFIG.planCcy){
       out.push(FX.live
         ? "Converted at the live rate on " + FX.when.toLocaleString() + " (" + FX.source + ")."
