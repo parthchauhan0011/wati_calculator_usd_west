@@ -430,7 +430,7 @@
 <div class="brand">
 <img alt="Wati" onerror="this.style.display='none'" src="https://www.wati.io/wp-content/uploads/2024/11/wati-logo-svg-format.svg"/>
 <span class="divider"></span>
-<span class="toolname">WhatsApp cost estimator</span>
+<span class="toolname" data-i18n="toolname">WhatsApp cost estimator</span>
 <span class="regionpill">USD West</span>
 </div>
     <div class="bar-right" id="barRight">
@@ -493,9 +493,8 @@
 <form id="form" novalidate="">
 <section class="q">
 <div class="q-head"><span class="q-num">1</span><h2 data-i18n="t002">Where are your customers?</h2></div>
-<p class="q-note">WhatsApp charges on the country your customer's number belongs to, not where your
-        business is. Rates move a long way between markets, so start here. North America, Australia, Nordics and South Africa. Uses the USD West usage rate card.</p>
-<label class="sr" for="country">Country your customers are in</label>
+<p class="q-note"><span data-i18n="q1note">WhatsApp charges on the country your customer's number belongs to, not where your business is. Rates move a long way between markets, so start here.</span> <span data-i18n="regionNote">North America, Australia, Nordics and South Africa. Uses the USD West usage rate card.</span></p>
+<label class="sr" data-i18n="srCountry" for="country">Country your customers are in</label>
 <select id="country"></select>
 <span class="hint" id="countryHint" style="margin-top:9px"></span>
 <div class="cards" id="rateCards"></div>
@@ -544,7 +543,7 @@
 <p class="q-note" data-i18n="t017">WhatsApp bills per delivered message by category, not per contact. Split your monthly volume across the three that cost money.</p>
 <div class="field">
 <div class="field-top">
-<span class="field-label" data-i18n="t018"><i class="dot d-mkt"></i>Marketing<span class="sr"> messages per month</span></span>
+<span class="field-label" data-i18n="t018"><i class="dot d-mkt"></i>Marketing<span class="sr" data-i18n="srMsgs"> messages per month</span></span>
 <input aria-label="Marketing messages per month" class="num" id="mktNum" max="5000000" min="0" step="100" type="number" value="15000"/>
 </div>
 <input aria-label="Marketing messages slider" class="r-mkt" id="mktRange" max="100000" min="0" step="250" type="range" value="15000"/>
@@ -589,10 +588,10 @@
 <h3 data-i18n="t027">What you're still not charged for</h3>
 <ul>
 <li data-i18n="t028"><b>Inbound messages.</b> Anything the customer sends you is free.</li>
-<li data-i18n="t029"><b>Your first 1,000 service messages a month</b>, per WhatsApp Business Account, resetting monthly.</li>
-<li data-i18n="t030"><b>Click-to-WhatsApp ad conversations.</b> Free today. Meta is extending the window to 7 days; date to be confirmed.</li>
+<li data-i18n="t029"><b data-i18n="b029">Your first 1,000 service messages a month</b>, per WhatsApp Business Account, resetting monthly.</li>
+<li data-i18n="t030"><b data-i18n="b030">Click-to-WhatsApp ad conversations.</b> Free today. Meta is extending the window to 7 days; date to be confirmed.</li>
 </ul>
-<p data-i18n="t031" style="margin:11px 0 0;font-size:.86rem"><b>Changed on 1 October 2026:</b> service messages became billable per message, and utility templates inside the 24-hour window are billable again.</p>
+<p data-i18n="t031" style="margin:11px 0 0;font-size:.86rem"><b data-i18n="b031">Changed on 1 October 2026:</b> service messages became billable per message, and utility templates inside the 24-hour window are billable again.</p>
 </div>
 </section>
 <section class="q">
@@ -639,10 +638,10 @@
 <div class="aibox">
 <h3 data-i18n="t041">Astra is included, and credits are now one pool</h3>
 <ul>
-<li data-i18n="t042"><b>Astra AI agents come with the plan</b> — 1 on Growth, 2 on Pro, unlimited on Business. Voice AI is Business only. No separate Astra subscription.</li>
-<li data-i18n="t043"><b>One credit pool.</b> One balance covers Wati AI and Astra. The old AI Co-pilot credits are retired.</li>
-<li data-i18n="t044"><b>Credits don't roll over.</b> They expire on your billing date and reset to the plan's allowance. Top-ups don't carry over either.</li>
-<li data-i18n="t045"><b>Top-ups start at 2,000.</b> 1,000-credit packs are gone and the per-credit price halved — the same money buys twice as much.</li>
+<li data-i18n="t042"><b data-i18n="b042">Astra AI agents come with the plan</b> — 1 on Growth, 2 on Pro, unlimited on Business. Voice AI is Business only. No separate Astra subscription.</li>
+<li data-i18n="t043"><b data-i18n="b043">One credit pool.</b> One balance covers Wati AI and Astra. The old AI Co-pilot credits are retired.</li>
+<li data-i18n="t044"><b data-i18n="b044">Credits don't roll over.</b> They expire on your billing date and reset to the plan's allowance. Top-ups don't carry over either.</li>
+<li data-i18n="t045"><b data-i18n="b045">Top-ups start at 2,000.</b> 1,000-credit packs are gone and the per-credit price halved — the same money buys twice as much.</li>
 </ul>
 <p><a data-i18n="t046" href="https://support.wati.io/en/articles/17565154-understanding-wati-and-astra-bundle-plans-and-ai-credits" rel="noopener" target="_blank">How bundle plans and AI credits work, including rollover</a></p>
 </div>
@@ -718,10 +717,10 @@
 <div class="plans" id="plans"></div>
 </section>
 <div class="wrap notes">
-<b>What's assumed here, so you can check it.</b>
+<b data-i18n="notesH">What’s assumed here, so you can check it.</b>
 <ol>
 <li data-i18n="t060">Plan, seat and add-on prices are the published figures. Message rates come from this region's Wati rate card, effective 1 October 2026, billed on the recipient's country. Higher tiers are cheaper per message.</li>
-<li>Message rates are quoted in USD on the rate card. Where the plan is billed in another currency, the two are converted into the currency picked at the top of the quote panel, at today's rate. Service messages have their own per-country rate, lower than the utility rate.</li>
+<li><span data-i18n="rnUsd">Message rates are quoted in USD on the rate card. Where the plan is billed in another currency, the two are converted into the currency picked at the top of the quote panel, at today's rate.</span> <span data-i18n="svcLower">Service messages have their own per-country rate, lower than the utility rate.</span></li>
 <li data-i18n="t061">The rate cards are linked under question 1 — open the source on a call rather than quoting from memory.</li>
 <li data-i18n="t062">The estimate picks the cheapest plan that fits. Pin a plan to quote higher; anything it can't cover is left out of the total and flagged.</li>
 <li data-i18n="t063">Growth's 15,000 broadcast cap is checked against marketing plus utility. Authentication is API-triggered one-to-one and doesn't count.</li>
@@ -731,8 +730,7 @@
 <li data-i18n="t067">Extra WhatsApp numbers need Business. Shopify is $4.99 a month in USD, so it moves with the exchange rate.</li>
 <li data-i18n="t068">Message charges are drawn from a prepaid wallet, separate from the subscription invoice.</li>
 <li data-i18n="t069">Volume discounts above roughly a million messages a month aren't modelled. Also excluded: dedicated onboarding, technical account management, professional services and green-tick verification.</li>
-<li>Exchange rates come from Frankfurter, falling back to Exchange Rate API. Both publish once a day, so the rate is a daily reference rate, not a dealing rate.
-      Wati invoices in USD; your bank's rate on the day will differ slightly.</li>
+<li data-i18n="t071">Exchange rates come from Frankfurter, falling back to Exchange Rate API. Both publish once a day, so the rate is a daily reference rate, not a dealing rate. Wati invoices in <b data-i18n-skip="1">USD</b>; your bank’s rate on the day will differ slightly.</li>
 </ol>
 </div>
 <div aria-hidden="true" class="mbar">
@@ -746,7 +744,7 @@
   /* ============================================================
      Region configuration, generated at build time.
      ============================================================ */
-  var CONFIG = {"region": "USD West", "card": "W", "planCcy": "USD", "planSymbol": "$", "cycles": [{"key": "annual", "label": "Annual", "sub": "plan billed annually"}, {"key": "monthly", "label": "Monthly", "sub": "plan billed monthly"}], "rateCcy": "USD", "rateSymbol": "$", "payg": null, "plans": {"growth": {"label": "Growth", "prices": {"annual": 59, "monthly": 69}, "seats": 3, "extraSeat": null, "triggers": 1000, "aiCredits": 2000, "broadcastCap": 15000, "numbers": 1, "advanced": false}, "pro": {"label": "Pro", "prices": {"annual": 119, "monthly": 149}, "seats": 5, "extraSeat": 39, "triggers": 2000, "aiCredits": 5000, "broadcastCap": null, "numbers": 1, "advanced": true}, "business": {"label": "Business", "prices": {"annual": 279, "monthly": 349}, "seats": 5, "extraSeat": 89, "triggers": 5000, "aiCredits": 20000, "broadcastCap": null, "numbers": null, "advanced": true}}, "extraNumber": 29, "shopifyUsd": 4.99, "currencies": [{"country": "United States", "ccy": "USD"}, {"country": "Canada", "ccy": "CAD"}, {"country": "Australia", "ccy": "AUD"}, {"country": "Iceland", "ccy": "ISK"}, {"country": "Norway", "ccy": "NOK"}, {"country": "South Africa", "ccy": "ZAR"}], "fallbackRates": {"AED": 3.6725, "AFN": 65.108, "ALL": 80.47, "AMD": 365.99, "ANG": 1.79, "AOA": 917.45, "ARS": 1491.32, "AUD": 1.4168, "AWG": 1.7901, "AZN": 1.6995, "BAM": 1.6942, "BBD": 2.0327, "BDT": 123.31, "BGN": 1.6942, "BHD": 0.376, "BIF": 2995.47, "BMD": 1.0, "BND": 1.2798, "BOB": 11.7309, "BRL": 5.159, "BSD": 1.0105, "BTN": 95.35, "BWP": 13.2298, "BYN": 2.9674, "BZD": 2.0317, "CAD": 1.3927, "CDF": 2278.48, "CHF": 0.8118, "CLP": 913.97, "CNY": 6.741, "COP": 3129.33, "CRC": 451.38, "CUP": 24.0, "CVE": 95.51, "CZK": 21.01, "DJF": 177.24, "DKK": 6.4776, "DOP": 59.2, "DZD": 132.93, "EGP": 50.197, "ERN": 15.2284, "ETB": 160.46, "EUR": 0.86621, "FJD": 2.2187, "FKP": 0.74026, "GBP": 0.74026, "GEL": 2.6135, "GGP": 0.74026, "GHS": 11.6183, "GIP": 0.74768, "GMD": 73.336, "GNF": 8270, "GTQ": 7.628, "GYD": 210.97, "HKD": 7.8533, "HNL": 26.814, "HTG": 130.71, "HUF": 315.7, "IDR": 17850, "ILS": 2.9926, "IMP": 0.74026, "INR": 95.35, "IQD": 1309.61, "IRR": 1370869, "ISK": 122.98, "JEP": 0.74026, "JMD": 157.0, "JOD": 0.709, "JPY": 159.27, "KES": 129.1, "KGS": 87.47, "KHR": 4051.61, "KMF": 426.67, "KRW": 1416.19, "KWD": 0.30781, "KYD": 0.8372, "KZT": 465.56, "LAK": 22518, "LBP": 89899, "LKR": 333.63, "LRD": 181.74, "LSL": 16.15, "LYD": 6.3708, "MAD": 9.3001, "MDL": 17.3256, "MGA": 4281.72, "MKD": 53.307, "MMK": 2097.84, "MNT": 3596.39, "MOP": 8.0889, "MRU": 40.128, "MUR": 47.13, "MVR": 15.3995, "MWK": 1737.0, "MXN": 17.0699, "MYR": 4.0867, "MZN": 63.635, "NAD": 16.1578, "NGN": 1362.05, "NIO": 36.779, "NOK": 9.4901, "NPR": 152.58, "NZD": 1.7046, "OMR": 0.3845, "PEN": 3.3669, "PGK": 4.4256, "PHP": 61.188, "PKR": 278.35, "PLN": 3.7291, "PYG": 5967, "QAR": 3.64, "RON": 4.5408, "RSD": 101.69, "RUB": 82.76, "RWF": 1471.74, "SAR": 3.75, "SBD": 8.0122, "SCR": 14.2034, "SDG": 600.15, "SEK": 9.5305, "SGD": 1.2798, "SHP": 0.74026, "SLE": 24.483, "SOS": 571.47, "SRD": 37.943, "SSP": 5372, "STN": 21.335, "SYP": 122.03, "SZL": 16.1582, "THB": 33.078, "TJS": 9.2376, "TMT": 3.5, "TND": 2.9316, "TOP": 2.3642, "TRY": 47.751, "TTD": 6.747, "TWD": 32.209, "TZS": 2642.62, "UAH": 44.724, "UGX": 3717.53, "USD": 1, "UYU": 40.262, "UZS": 11923, "VES": 762.7, "VND": 26034, "VUV": 117.19, "WST": 2.7118, "XAF": 568.2, "XCD": 2.7392, "XCG": 1.7962, "XOF": 568.2, "XPF": 103.4, "YER": 237.22, "ZAR": 16.1342, "ZMW": 18.7468, "ZWG": 26.57}, "fallbackAsOf": "13 August 2026", "serviceFree": 1000, "rateCards": {"folder": "https://drive.google.com/drive/folders/1JPExHEWYThqKcHBidgRbLKTK9Lx9kfxv", "effective": "1 October 2026", "items": [{"label": "Growth & Pro", "card": "Wati-Pricing-Rate-Card-Growth-Plan-Pro-Plan-USD-W.pdf", "url": "https://drive.google.com/file/d/1dt4sTvjXW12gXOk9y8UL-rxFlBAtNKWX/view"}, {"label": "Business", "card": "Wati-Pricing-Rate-Card-Business-Plan-USD-W.pdf", "url": "https://drive.google.com/file/d/1QBZppg3EJCgcBLvwXSxSQKZSR1VZp_hC/view"}]}, "addons": [{"k": "opscope", "label": "Operator scope", "unit": "user", "p": 10.0, "hint": "Each operator sees only their own assigned chats, not the whole shared inbox.", "url": "https://support.wati.io/en/articles/11865694-how-to-manage-chat-visibility-to-restrict-access-to-assigned-conversations", "minPlan": "pro"}, {"k": "opprivacy", "label": "Operator privacy", "unit": "user", "p": 10.0, "hint": "Hides the customer's contact details from operators during the chat.", "url": "https://support.wati.io/en/articles/11463006-how-to-hide-or-mask-customer-phone-numbers-in-wati", "minPlan": "pro"}, {"k": "masking", "label": "Phone number masking", "unit": "user", "p": 10.0, "hint": "Masks the customer's number in the inbox. Usually bought for compliance.", "url": "https://support.wati.io/en/articles/11463006-how-to-hide-or-mask-customer-phone-numbers-in-wati", "minPlan": "pro"}, {"k": "roundrobin", "label": "Round-robin chat assignment", "unit": "user", "p": 10.0, "hint": "Shares incoming chats evenly across available agents.", "url": "https://support.wati.io/en/articles/14270796-how-to-use-round-robin-assignment-for-chats-in-wati", "minPlan": "pro"}, {"k": "apilimit", "label": "API monthly limit increase", "unit": "month", "p": 200.0, "hint": "Monthly API ceiling up to 40 million calls.", "url": "https://support.wati.io/en/articles/11823158-understanding-wati-apis-and-their-usage-limits", "minPlan": "business"}, {"k": "apihigh", "label": "API high volume", "unit": "month", "p": 200.0, "hint": "Burst limit up to 200 API calls every 10 seconds.", "url": "https://support.wati.io/en/articles/11823158-understanding-wati-apis-and-their-usage-limits", "minPlan": "pro"}, {"k": "forms", "label": "Forms", "unit": "month", "p": 100.0, "hint": "Up to 25 WhatsApp forms for bookings, applications and lead capture.", "url": "https://support.wati.io/en/articles/11463180-how-to-create-and-use-whatsapp-flows-in-wati", "minPlan": "business"}, {"k": "byoa", "label": "BYOA — bring your own AI agent", "unit": "agent", "p": 100, "minPlan": "pro", "url": "https://support.wati.io/en/articles/12320095-how-to-use-bring-your-own-ai-byoa-to-connect-and-manage-your-own-ai-agents-in-wati", "hint": "Connect a third-party AI agent, billed per agent. Astra agents come with the plan and aren't charged here."}, {"k": "blitz", "label": "Blitz — 200 messages/second", "unit": "month", "p": 200.0, "hint": "Broadcast send speed up to 200 messages a second, for time-critical sends.", "url": "https://support.wati.io/en/articles/11463452-is-there-a-limit-to-broadcast-messages", "minPlan": "business"}], "sessionTiers": [[1000, 40.0], [2000, 80.0], [3000, 120.0], [4000, 160.0], [6000, 220.0], [8000, 300.0], [10000, 360.0], [15000, 500.0], [20000, 625.0], [30000, 850.0], [40000, 1050.0], [50000, 1250.0], [75000, 1700.0], [100000, 2100.0], [150000, 2800.0], [200000, 3500.0], [250000, 4200.0], [300000, 4900.0], [400000, 6000.0], [500000, 7100.0], [750000, 9300.0], [1000000, 11500.0]], "aiTiers": [[2000, 30.0], [4000, 60.0], [6000, 90.0], [8000, 120.0], [10000, 150.0], [12000, 180.0], [14000, 210.0], [16000, 240.0], [18000, 270.0], [20000, 300.0], [22000, 330.0], [24000, 360.0], [26000, 390.0], [28000, 420.0], [30000, 450.0], [32000, 480.0], [34000, 510.0], [36000, 540.0], [38000, 570.0], [40000, 600.0], [42000, 630.0], [44000, 660.0], [46000, 690.0], [48000, 720.0], [50000, 750.0], [52000, 780.0], [54000, 810.0], [56000, 840.0], [58000, 870.0], [60000, 900.0], [62000, 930.0], [64000, 960.0], [66000, 990.0], [68000, 1020.0], [70000, 1050.0], [72000, 1080.0], [74000, 1110.0], [76000, 1140.0], [78000, 1170.0], [80000, 1200.0], [82000, 1230.0], [84000, 1260.0], [86000, 1290.0], [88000, 1320.0], [90000, 1350.0], [92000, 1380.0], [94000, 1410.0], [96000, 1440.0], [98000, 1470.0], [100000, 1500.0]], "aiTop": 1530.0, "homeIsos": ["AU", "CA", "IS", "NO", "ZA", "US"], "defaultCountry": "US", "defaultOutCcy": "USD"};
+  var CONFIG = {"region": "USD West", "card": "W", "planCcy": "USD", "planSymbol": "$", "cycles": [{"key": "annual", "label": "Annual", "sub": "plan billed annually"}, {"key": "monthly", "label": "Monthly", "sub": "plan billed monthly"}], "rateCcy": "USD", "rateSymbol": "$", "payg": null, "plans": {"growth": {"label": "Growth", "prices": {"annual": 59, "monthly": 69}, "seats": 3, "extraSeat": null, "triggers": 1000, "aiCredits": 2000, "broadcastCap": 15000, "numbers": 1, "advanced": false}, "pro": {"label": "Pro", "prices": {"annual": 119, "monthly": 149}, "seats": 5, "extraSeat": 39, "triggers": 2000, "aiCredits": 5000, "broadcastCap": null, "numbers": 1, "advanced": true}, "business": {"label": "Business", "prices": {"annual": 279, "monthly": 349}, "seats": 5, "extraSeat": 89, "triggers": 5000, "aiCredits": 20000, "broadcastCap": null, "numbers": null, "advanced": true}}, "extraNumber": 29, "shopifyUsd": 4.99, "currencies": [{"country": "United States", "ccy": "USD"}, {"country": "Canada", "ccy": "CAD"}, {"country": "Australia", "ccy": "AUD"}, {"country": "Iceland", "ccy": "ISK"}, {"country": "Norway", "ccy": "NOK"}, {"country": "South Africa", "ccy": "ZAR"}], "fallbackRates": {"AED": 3.6725, "AFN": 65.108, "ALL": 80.47, "AMD": 365.99, "ANG": 1.79, "AOA": 917.45, "ARS": 1491.32, "AUD": 1.4168, "AWG": 1.7901, "AZN": 1.6995, "BAM": 1.6942, "BBD": 2.0327, "BDT": 123.31, "BGN": 1.6942, "BHD": 0.376, "BIF": 2995.47, "BMD": 1.0, "BND": 1.2798, "BOB": 11.7309, "BRL": 5.159, "BSD": 1.0105, "BTN": 95.35, "BWP": 13.2298, "BYN": 2.9674, "BZD": 2.0317, "CAD": 1.3927, "CDF": 2278.48, "CHF": 0.8118, "CLP": 913.97, "CNY": 6.741, "COP": 3129.33, "CRC": 451.38, "CUP": 24.0, "CVE": 95.51, "CZK": 21.01, "DJF": 177.24, "DKK": 6.4776, "DOP": 59.2, "DZD": 132.93, "EGP": 50.197, "ERN": 15.2284, "ETB": 160.46, "EUR": 0.86621, "FJD": 2.2187, "FKP": 0.74026, "GBP": 0.74026, "GEL": 2.6135, "GGP": 0.74026, "GHS": 11.6183, "GIP": 0.74768, "GMD": 73.336, "GNF": 8270, "GTQ": 7.628, "GYD": 210.97, "HKD": 7.8533, "HNL": 26.814, "HTG": 130.71, "HUF": 315.7, "IDR": 17850, "ILS": 2.9926, "IMP": 0.74026, "INR": 95.35, "IQD": 1309.61, "IRR": 1370869, "ISK": 122.98, "JEP": 0.74026, "JMD": 157.0, "JOD": 0.709, "JPY": 159.27, "KES": 129.1, "KGS": 87.47, "KHR": 4051.61, "KMF": 426.67, "KRW": 1416.19, "KWD": 0.30781, "KYD": 0.8372, "KZT": 465.56, "LAK": 22518, "LBP": 89899, "LKR": 333.63, "LRD": 181.74, "LSL": 16.15, "LYD": 6.3708, "MAD": 9.3001, "MDL": 17.3256, "MGA": 4281.72, "MKD": 53.307, "MMK": 2097.84, "MNT": 3596.39, "MOP": 8.0889, "MRU": 40.128, "MUR": 47.13, "MVR": 15.3995, "MWK": 1737.0, "MXN": 17.0699, "MYR": 4.0867, "MZN": 63.635, "NAD": 16.1578, "NGN": 1362.05, "NIO": 36.779, "NOK": 9.4901, "NPR": 152.58, "NZD": 1.7046, "OMR": 0.3845, "PEN": 3.3669, "PGK": 4.4256, "PHP": 61.188, "PKR": 278.35, "PLN": 3.7291, "PYG": 5967, "QAR": 3.64, "RON": 4.5408, "RSD": 101.69, "RUB": 82.76, "RWF": 1471.74, "SAR": 3.75, "SBD": 8.0122, "SCR": 14.2034, "SDG": 600.15, "SEK": 9.5305, "SGD": 1.2798, "SHP": 0.74026, "SLE": 24.483, "SOS": 571.47, "SRD": 37.943, "SSP": 5372, "STN": 21.335, "SYP": 122.03, "SZL": 16.1582, "THB": 33.078, "TJS": 9.2376, "TMT": 3.5, "TND": 2.9316, "TOP": 2.3642, "TRY": 47.751, "TTD": 6.747, "TWD": 32.209, "TZS": 2642.62, "UAH": 44.724, "UGX": 3717.53, "USD": 1, "UYU": 40.262, "UZS": 11923, "VES": 762.7, "VND": 26034, "VUV": 117.19, "WST": 2.7118, "XAF": 568.2, "XCD": 2.7392, "XCG": 1.7962, "XOF": 568.2, "XPF": 103.4, "YER": 237.22, "ZAR": 16.1342, "ZMW": 18.7468, "ZWG": 26.57}, "fallbackAsOf": "13 August 2026", "serviceFree": 1000, "rateCards": {"folder": "https://drive.google.com/drive/folders/1JPExHEWYThqKcHBidgRbLKTK9Lx9kfxv", "effective": "1 October 2026", "items": [{"label": "Growth & Pro", "card": "Wati-Pricing-Rate-Card-Growth-Plan-Pro-Plan-USD-W.pdf", "url": "https://drive.google.com/file/d/1dt4sTvjXW12gXOk9y8UL-rxFlBAtNKWX/view"}, {"label": "Business", "card": "Wati-Pricing-Rate-Card-Business-Plan-USD-W.pdf", "url": "https://drive.google.com/file/d/1QBZppg3EJCgcBLvwXSxSQKZSR1VZp_hC/view"}]}, "addons": [{"k": "opscope", "label": "Operator scope and privacy", "unit": "user", "p": 10.0, "hint": "Each operator sees only their own assigned chats, and the customer's contact details stay hidden from them. One add-on, both behaviours.", "url": "https://support.wati.io/en/articles/11865694-how-to-manage-chat-visibility-to-restrict-access-to-assigned-conversations", "minPlan": "pro"}, {"k": "masking", "label": "Phone number masking", "unit": "user", "p": 10.0, "hint": "Masks the customer's number in the inbox. Usually bought for compliance.", "url": "https://support.wati.io/en/articles/11463006-how-to-hide-or-mask-customer-phone-numbers-in-wati", "minPlan": "pro"}, {"k": "roundrobin", "label": "Round-robin chat assignment", "unit": "user", "p": 10.0, "hint": "Shares incoming chats evenly across available agents.", "url": "https://support.wati.io/en/articles/14270796-how-to-use-round-robin-assignment-for-chats-in-wati", "minPlan": "pro"}, {"k": "apilimit", "label": "API monthly limit increase", "unit": "month", "p": 200.0, "hint": "Monthly API ceiling up to 40 million calls.", "url": "https://support.wati.io/en/articles/11823158-understanding-wati-apis-and-their-usage-limits", "minPlan": "business"}, {"k": "apihigh", "label": "API high volume", "unit": "month", "p": 200.0, "hint": "Burst limit up to 200 API calls every 10 seconds.", "url": "https://support.wati.io/en/articles/11823158-understanding-wati-apis-and-their-usage-limits", "minPlan": "pro"}, {"k": "forms", "label": "Forms", "unit": "month", "p": 100.0, "hint": "Up to 25 WhatsApp forms for bookings, applications and lead capture.", "url": "https://support.wati.io/en/articles/11463180-how-to-create-and-use-whatsapp-flows-in-wati", "minPlan": "business"}, {"k": "byoa", "label": "BYOA — bring your own AI agent", "unit": "agent", "p": 100, "minPlan": "pro", "url": "https://support.wati.io/en/articles/12320095-how-to-use-bring-your-own-ai-byoa-to-connect-and-manage-your-own-ai-agents-in-wati", "hint": "Connect a third-party AI agent, billed per agent. Astra agents come with the plan and aren't charged here."}, {"k": "blitz", "label": "Blitz — 200 messages/second", "unit": "month", "p": 200.0, "hint": "Broadcast send speed up to 200 messages a second, for time-critical sends.", "url": "https://support.wati.io/en/articles/11463452-is-there-a-limit-to-broadcast-messages", "minPlan": "business"}], "sessionTiers": [[1000, 40.0], [2000, 80.0], [3000, 120.0], [4000, 160.0], [6000, 220.0], [8000, 300.0], [10000, 360.0], [15000, 500.0], [20000, 625.0], [30000, 850.0], [40000, 1050.0], [50000, 1250.0], [75000, 1700.0], [100000, 2100.0], [150000, 2800.0], [200000, 3500.0], [250000, 4200.0], [300000, 4900.0], [400000, 6000.0], [500000, 7100.0], [750000, 9300.0], [1000000, 11500.0]], "aiTiers": [[2000, 30.0], [4000, 60.0], [6000, 90.0], [8000, 120.0], [10000, 150.0], [12000, 180.0], [14000, 210.0], [16000, 240.0], [18000, 270.0], [20000, 300.0], [22000, 330.0], [24000, 360.0], [26000, 390.0], [28000, 420.0], [30000, 450.0], [32000, 480.0], [34000, 510.0], [36000, 540.0], [38000, 570.0], [40000, 600.0], [42000, 630.0], [44000, 660.0], [46000, 690.0], [48000, 720.0], [50000, 750.0], [52000, 780.0], [54000, 810.0], [56000, 840.0], [58000, 870.0], [60000, 900.0], [62000, 930.0], [64000, 960.0], [66000, 990.0], [68000, 1020.0], [70000, 1050.0], [72000, 1080.0], [74000, 1110.0], [76000, 1140.0], [78000, 1170.0], [80000, 1200.0], [82000, 1230.0], [84000, 1260.0], [86000, 1290.0], [88000, 1320.0], [90000, 1350.0], [92000, 1380.0], [94000, 1410.0], [96000, 1440.0], [98000, 1470.0], [100000, 1500.0]], "aiTop": 1530.0, "homeIsos": ["AU", "CA", "IS", "NO", "ZA", "US"], "defaultCountry": "US", "defaultOutCcy": "USD"};
 
   /* Per-country per-message rates from the region's usage rate card
      (1 October 2026), in CONFIG.rateCcy.  Nine numbers per country:
@@ -822,6 +820,19 @@
     });
   }
 
+  // Translations reorder words, so runtime strings interpolate by position
+  // rather than by concatenation.
+  function F(key, fallback){
+    var t = T(key, fallback), a = arguments;
+    return t.replace(/\{(\d)\}/g, function(_, i){
+      var v = a[Number(i) + 2];
+      return v === undefined ? "" : String(v);
+    });
+  }
+
+  // Controls built once at load re-render themselves when the language changes.
+  var LANG_HOOKS = [];
+
   var HEADLINE_HTML = null;
   function applyLang(){
     document.documentElement.lang = LANG;
@@ -842,6 +853,8 @@
       setDirect(el, pad[0] + T(k, EN[k]) + pad[1]);
     });
     rebuildAddons();
+    rebuildCcyOptions();
+    LANG_HOOKS.forEach(function(f){ try { f(); } catch(e){} });
     render();
   }
 
@@ -978,7 +991,7 @@
 
   function renderFx(mode){
     var el = $("fxline");
-    if (mode === "loading"){ el.innerHTML = "Fetching today's exchange rates…"; return; }
+    if (mode === "loading"){ el.innerHTML = T("fxLoading","Fetching today\u2019s exchange rates\u2026"); return; }
     var one, per;
     if (state.outCcy === "USD"){
       one = "1 USD"; per = "";
@@ -992,13 +1005,16 @@
       // These feeds publish once a day, so show the rate's own date rather than
       // implying a live tick. Refresh is for recovering a failed load or picking
       // up the next daily publication.
-      bits.push(FX.asOf ? ("rate dated " + FX.asOf) : "latest published rate");
-      bits.push('rates by <a href="' + FX.url + '" target="_blank" rel="noopener">' + FX.source + '</a>');
+      bits.push(FX.asOf ? F("fxDated","rate dated {0}", FX.asOf) : T("fxLatest","latest published rate"));
+      bits.push(F("fxBy", "rates by {0}",
+        '<a href="' + FX.url + '" target="_blank" rel="noopener">' + FX.source + '</a>'));
     } else {
-      bits.push('<span class="fxbad">Live rates unavailable — offline reference rates from ' +
-        CONFIG.fallbackAsOf + ' in use. Do not quote from this.</span>');
+      bits.push('<span class="fxbad">' + F("fxOffline",
+        "Live rates unavailable \u2014 offline reference rates from {0} in use. Do not quote from this.",
+        T("fxAsOfDate", CONFIG.fallbackAsOf)) + '</span>');
     }
-    el.innerHTML = bits.join(" · ") + ' <button type="button" id="fxRetry">Refresh rates</button>';
+    el.innerHTML = bits.join(" \u00b7 ") + ' <button type="button" id="fxRetry">' +
+      T("fxRefresh","Refresh rates") + '</button>';
     $("fxRetry").addEventListener("click", fetchRates);
   }
 
@@ -1028,32 +1044,37 @@
     var maxNumbers = (plan.numbers === null) ? Infinity : plan.numbers;
 
     if (state.agents > plan.seats && plan.extraSeat === null){
-      reasons.push("Includes " + plan.seats + " users with no way to add more — you need " + state.agents + ".");
+      reasons.push(F("rSeats", "Includes {0} users with no way to add more \u2014 you need {1}.",
+        plan.seats, state.agents));
     }
     if (state.numbers > maxNumbers){
-      reasons.push("Supports one WhatsApp number; you need " + state.numbers + ".");
+      reasons.push(F("rNumbers", "Supports one WhatsApp number; you need {0}.", state.numbers));
     }
     // The broadcast cap covers campaign sends. Authentication is API-triggered
     // one-to-one, so it doesn't count towards it.
     var broadcastVolume = state.mkt + state.util;
     if (broadcastVolume > cap){
-      reasons.push("Broadcasts are capped at " + count(cap) + " a month; your marketing plus utility volume is " + count(broadcastVolume) + ".");
+      reasons.push(F("rCap", "Broadcasts are capped at {0} a month; your marketing plus utility volume is {1}.",
+        count(cap), count(broadcastVolume)));
     }
     // Astra agents ship with the plan: 1 on Growth, 2 on Pro, unlimited on Business.
     var agentCap = ASTRA[planKey];
     if (agentCap !== null && state.aiAgents > agentCap){
-      reasons.push("Comes with " + agentCap + " Astra AI agent" + (agentCap === 1 ? "" : "s") +
-        "; you asked for " + state.aiAgents + ".");
+      reasons.push(F(agentCap === 1 ? "rAgents1" : "rAgentsN",
+        agentCap === 1 ? "Comes with {0} Astra AI agent; you asked for {1}."
+                       : "Comes with {0} Astra AI agents; you asked for {1}.",
+        agentCap, state.aiAgents));
     }
     if (state.needVoice && planKey !== "business"){
-      reasons.push("Voice AI agents are Business only.");
+      reasons.push(T("rVoice", "Voice AI agents are Business only."));
     }
     // Each add-on can only be bought from a given plan upward.
     (CONFIG.addons || []).forEach(function(a){
       if (!state.addons[a.k]) return;
       var need = a.minPlan || "growth";
       if (PLAN_RANK[planKey] < PLAN_RANK[need]){
-        reasons.push(T("ao_" + a.k, a.label) + " needs " + CONFIG.plans[need].label + " or above.");
+        reasons.push(F("rAddon", "{0} needs {1} or above.",
+          T("ao_" + a.k, a.label), CONFIG.plans[need].label));
       }
     });
 
@@ -1274,17 +1295,18 @@
     var pick = (state.planPick === "auto") ? best : all[state.planPick];
 
     var cname = NAMES[state.country] || state.country;
-    $("countryHint").innerHTML = "On " + pick.plan.label + ", marketing to " + cname + " costs " +
-      msgRate(rateFor(pick.key,"marketing",state.country)) + " a message and utility " +
-      msgRate(rateFor(pick.key,"utility",state.country)) +
-      ". Switch country and the whole bill reprices.";
+    $("countryHint").innerHTML = F("hintCountry",
+      "On {0}, marketing to {1} costs {2} a message and utility {3}. Switch country and the whole bill reprices.",
+      pick.plan.label, cname,
+      msgRate(rateFor(pick.key,"marketing",state.country)),
+      msgRate(rateFor(pick.key,"utility",state.country)));
     $("numbersHint").textContent = state.numbers > 1
-      ? state.numbers + " numbers — only the Business plan supports this, plus " +
-        money(CONFIG.extraNumber) + " a month each beyond the first."
-      : "One number. Any plan can do this.";
+      ? F("hintNumbers", "{0} numbers \u2014 only the Business plan supports this, plus {1} a month each beyond the first.",
+          state.numbers, money(CONFIG.extraNumber))
+      : T("hintNumber1", "One number. Any plan can do this.");
     $("agentsHint").textContent = state.agents > 3
-      ? state.agents + " users rules out Growth, which is capped at 3."
-      : "Growth covers up to 3. Pro and Business include 5.";
+      ? F("hintSeatsOver", "{0} users rules out Growth, which is capped at 3.", state.agents)
+      : T("hintSeatsOk", "Growth covers up to 3. Pro and Business include 5.");
 
     $("planName").textContent = "Wati " + pick.plan.label;
     $("verdict").innerHTML = (state.planPick === "auto")
@@ -1306,10 +1328,10 @@
     var wb = $("warnbar");
     if (!FX.live && state.outCcy !== CONFIG.planCcy){
       wb.hidden = false;
-      wb.textContent = "Live exchange rates could not be loaded, so this total uses static reference rates. Use Refresh rates in the quote panel before quoting.";
+      wb.textContent = T("wbPlain", "Live exchange rates could not be loaded, so this total uses static reference rates. Use Refresh rates in the quote panel before quoting.");
     } else if (!FX.live && CONFIG.rateCcy !== CONFIG.planCcy){
       wb.hidden = false;
-      wb.textContent = "Live exchange rates could not be loaded. Message charges are billed in USD, so the total uses a static reference rate. Use Refresh rates in the quote panel before quoting.";
+      wb.textContent = T("wbUsd", "Live exchange rates could not be loaded. Message charges are billed in USD, so the total uses a static reference rate. Use Refresh rates in the quote panel before quoting.");
     } else { wb.hidden = true; }
 
     var box = $("lines");
@@ -1368,7 +1390,7 @@
     } else {
       ga.hidden = true; ga.textContent = "";
     }
-    $("cycleLabel").textContent = cycleSub() + " \u00b7 shown in " + state.outCcy;
+    $("cycleLabel").textContent = F("cycShown", "{0} \u00b7 shown in {1}", cycleSub(), state.outCcy);
     if (lastGrand !== null && Math.round(netTotal) !== lastGrand){
       g.classList.remove("pulse"); void g.offsetWidth; g.classList.add("pulse");
     }
@@ -1470,13 +1492,15 @@
   // override always honours the choice. It only warns when the pinned plan
   // physically cannot do the job, because then the total understates the truth.
   function pinnedVerdict(pick, best){
-    var bits = ["You've pinned <b>" + pick.plan.label + "</b>."];
+    var bits = [F("vPinned", "You\u2019ve pinned <b>{0}</b>.", pick.plan.label)];
     if (best.key === pick.key){
-      bits.push("That's also the cheapest plan that fits.");
+      bits.push(T("vPinnedBest", "That\u2019s also the cheapest plan that fits."));
     } else {
       var diff = pick.totalOut - best.totalOut;
-      bits.push("Cheapest that fits is <b>" + best.plan.label + "</b> at " + fmtOut(best.totalOut) +
-        ", so this is " + fmtOut(Math.abs(diff)) + (diff >= 0 ? " more" : " less") + " a month.");
+      bits.push(F(diff >= 0 ? "vPinnedMore" : "vPinnedLess",
+        diff >= 0 ? "Cheapest that fits is <b>{0}</b> at {1}, so this is {2} more a month."
+                  : "Cheapest that fits is <b>{0}</b> at {1}, so this is {2} less a month.",
+        best.plan.label, fmtOut(best.totalOut), fmtOut(Math.abs(diff))));
     }
     return bits.join(" ");
   }
@@ -1502,13 +1526,14 @@
 
   function verdictText(pick, all){
     if (!pick.eligible){
-      return "None of the standard plans covers this, so it needs a custom quote. Closest fit shown.";
+      return T("vNone", "None of the standard plans covers this, so it needs a custom quote. Closest fit shown.");
     }
-    var bits = ["<b>" + pick.plan.label + "</b> is the cheapest plan that meets your requirements."];
+    var bits = [F("vCheapest", "<b>{0}</b> is the cheapest plan that meets your requirements.", pick.plan.label)];
     var blocked = PLAN_ORDER.map(function(k){ return all[k]; }).filter(function(e){ return !e.eligible; });
     if (blocked.length === 1){
       var r = blocked[0].reasons[0];
-      bits.push(blocked[0].plan.label + " is out: " + r.charAt(0).toLowerCase() + r.slice(1));
+      bits.push(F("vOut1", "{0} is out: {1}", blocked[0].plan.label,
+        r.charAt(0).toLowerCase() + r.slice(1)));
     } else if (blocked.length > 1){
       // Name the reason, not just the plan: an AE needs to know which input to change.
       var why = {};
@@ -1516,14 +1541,15 @@
       var list = Object.keys(why).slice(0, 2).map(function(r){
         return r.charAt(0).toLowerCase() + r.slice(1).replace(/\.$/, "");
       });
-      bits.push(blocked.map(function(b){ return b.plan.label; }).join(" and ") +
-        " are out" + (list.length ? ": " + list.join("; ") : "") + ".");
+      bits.push(F("vOutMany", "{0} are out{1}.",
+        blocked.map(function(b){ return b.plan.label; }).join(" " + T("and","and") + " "),
+        list.length ? ": " + list.join("; ") : ""));
     }
     if (CONFIG.payg && state.agents === 1 && state.numbers === 1 &&
         !state.needShopify &&
         pick.volumes.total * 3 <= CONFIG.payg.messages){
-      bits.push("At this volume the " + CONFIG.payg.label +
-        " may work out cheaper than any subscription \u2014 worth a look.");
+      bits.push(F("vPayg", "At this volume the {0} may work out cheaper than any subscription \u2014 worth a look.",
+        CONFIG.payg.label));
     }
     // A bigger plan can be the cheaper bill: its per-message rates are lower.
     (function(){
@@ -1534,12 +1560,14 @@
       var next = all[cheaperTier[cheaperTier.length - 1]];
       var gap = next.totalOut - pick.totalOut;
       if (gap > 0){
-        bits.push(next.plan.label + " also qualifies but costs " + fmtOut(gap) +
-          " a month more: its per-message rates are higher, and at this volume that outweighs the lower plan fee.");
+        bits.push(F("vTierUp",
+          "{0} also qualifies but costs {1} a month more: its per-message rates are higher, and at this volume that outweighs the lower plan fee.",
+          next.plan.label, fmtOut(gap)));
       }
     })();
     if (pick.msgOut > pick.subOut && pick.totalOut > 0){
-      bits.push("Messages are " + Math.round(pick.msgOut/pick.totalOut*100) + "% of the cost — the subscription is the small part.");
+      bits.push(F("vMsgShare", "Messages are {0}% of the cost \u2014 the subscription is the small part.",
+        Math.round(pick.msgOut/pick.totalOut*100)));
     }
     return bits.join(" ");
   }
@@ -1557,30 +1585,32 @@
       var h = document.createElement("h3"); h.textContent = e.plan.label;
       top.appendChild(h);
       if (state.planPick !== "auto" && e.key === state.planPick){
-        var pin = document.createElement("span"); pin.className = "tag"; pin.textContent = "Quoting"; top.appendChild(pin);
+        var pin = document.createElement("span"); pin.className = "tag"; pin.textContent = T("tagQuoting","Quoting"); top.appendChild(pin);
       } else if (e.key === pick.key && e.eligible){
-        var t = document.createElement("span"); t.className = "tag"; t.textContent = "Best fit"; top.appendChild(t);
+        var t = document.createElement("span"); t.className = "tag"; t.textContent = T("t049","Best fit"); top.appendChild(t);
       } else if (!e.eligible){
-        var no = document.createElement("span"); no.className = "tag no"; no.textContent = "Doesn't fit"; top.appendChild(no);
+        var no = document.createElement("span"); no.className = "tag no"; no.textContent = T("tagNoFit","Doesn\u2019t fit"); top.appendChild(no);
       }
       card.appendChild(top);
 
       var tot = document.createElement("div");
       tot.className = "p-tot num";
-      tot.innerHTML = fmtOut(e.totalOut) + "<small>per month, all in</small>";
+      tot.innerHTML = fmtOut(e.totalOut) + "<small>" + T("pAllIn","per month, all in") + "</small>";
       card.appendChild(tot);
 
       var facts = document.createElement("ul");
       facts.className = "p-facts";
       [
-        "Plan " + fmtOut(e.platformOut),
+        F("pPlan", "Plan {0}", fmtOut(e.platformOut)),
         e.extraSeats > 0 && e.plan.extraSeat !== null
-          ? e.extraSeats + " extra " + (e.extraSeats===1?"user ":"users ") + fmtOut(e.seatOut)
-          : e.plan.seats + " users included" + (e.plan.extraSeat === null ? ", no extras possible" : ""),
-        "Messages " + fmtOut(e.msgOut) + ", marketing at " + msgRate(e.marketingRate),
+          ? F("pExtraSeats", "{0} extra users {1}", e.extraSeats, fmtOut(e.seatOut))
+          : (e.plan.extraSeat === null
+              ? F("pSeatsFixed", "{0} users included, no extras possible", e.plan.seats)
+              : F("pSeatsInc", "{0} users included", e.plan.seats)),
+        F("pMsgs", "Messages {0}, marketing at {1}", fmtOut(e.msgOut), msgRate(e.marketingRate)),
         e.trigBand.price > 0
-          ? "Trigger top-up " + money(e.trigBand.price) + " (" + count(e.trigBand.size) + " band)"
-          : count(e.plan.triggers) + " triggers, enough for you"
+          ? F("pTrigTop", "Trigger top-up {0} ({1} band)", money(e.trigBand.price), count(e.trigBand.size))
+          : F("pTrigOk", "{0} triggers, enough for you", count(e.plan.triggers))
       ].forEach(function(r){
         var li = document.createElement("li"); li.textContent = r; facts.appendChild(li);
       });
@@ -1859,10 +1889,15 @@
     var bar = $("cycleBar");
     CONFIG.cycles.forEach(function(c){
       var b = document.createElement("button");
-      b.type = "button"; b.textContent = c.label;
+      b.type = "button"; b.textContent = T("cyc_" + c.key, c.label);
       b.setAttribute("aria-pressed", String(c.key === state.cycle));
       b.addEventListener("click", function(){ setCycle(c.key); });
       bar.appendChild(b);
+    });
+    LANG_HOOKS.push(function(){
+      Array.prototype.forEach.call(bar.children, function(b, i){
+        b.textContent = T("cyc_" + CONFIG.cycles[i].key, CONFIG.cycles[i].label);
+      });
     });
   })();
   function setCycle(k){
@@ -1874,7 +1909,8 @@
   }
   function cycleSub(){
     for (var i = 0; i < CONFIG.cycles.length; i++){
-      if (CONFIG.cycles[i].key === state.cycle) return CONFIG.cycles[i].sub;
+      if (CONFIG.cycles[i].key === state.cycle)
+        return T("cycSub_" + state.cycle, CONFIG.cycles[i].sub);
     }
     return "";
   }
@@ -1915,7 +1951,8 @@
     if (!rc || !rc.items || !rc.items.length) return;
     var box = $("rateCards");
     var h = document.createElement("h4");
-    h.textContent = "The rate cards behind these numbers";
+    h.textContent = T("rcHead","The rate cards behind these numbers");
+    h.setAttribute("data-i18n", "rcHead");
     box.appendChild(h);
     var ul = document.createElement("ul");
     rc.items.forEach(function(it){
@@ -1932,8 +1969,13 @@
     box.appendChild(ul);
     var p = document.createElement("p");
     var anyFolder = rc.items.some(function(i){ return !i.url || i.url.indexOf("/folders/") > -1; });
-    p.textContent = "Effective " + rc.effective + "." +
-      (anyFolder ? " Where a link opens a folder, pick the file named on the button." : "");
+    function fillEff(){
+      p.textContent = F("rcEffective", "Effective {0}.", T("rcDate", rc.effective)) +
+        (anyFolder ? " " + T("rcFolder", "Where a link opens a folder, pick the file named on the button.") : "");
+    }
+    fillEff();
+    p.setAttribute("data-i18n-skip", "1");
+    LANG_HOOKS.push(fillEff);
     box.appendChild(p);
   })();
 
