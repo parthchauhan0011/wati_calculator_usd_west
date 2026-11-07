@@ -91,7 +91,50 @@
   @media (max-width:980px){ .split{grid-template-columns:minmax(0,1fr);gap:30px} }
 
   /* questions */
-  .q{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:24px 24px 26px;margin-bottom:14px}
+  .q{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:20px 22px 22px;margin:0}
+
+  /* Two-up where the content allows, so the form is a screen or two, not six. */
+  #form{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  #form > .q{grid-column:1/-1}
+  #form > .q.half{grid-column:span 1}
+  .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+  .ao-grid{display:grid;grid-template-columns:1fr;gap:0 28px}
+  :root[data-detail="off"] .ao-grid{grid-template-columns:1fr}
+  /* One line per add-on in the compact view: name, help link, quantity. */
+  :root[data-detail="off"] .ao-grid .field{margin-bottom:7px}
+  :root[data-detail="off"] .ao-grid .check{padding:6px 0}
+  :root[data-detail="off"] .ao-grid .field-label.stack{flex-direction:row;align-items:center;
+    gap:9px;max-width:none}
+  .ao-grid .check > div{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:9px}
+  .ao-grid .check > div .hint{flex-basis:100%}
+  :root[data-detail="off"] .rc-file{display:none}
+  .ao-link{font-size:.8rem;font-weight:500;color:var(--muted);white-space:nowrap;
+    text-decoration:underline;text-decoration-color:var(--green);text-underline-offset:3px}
+  .ao-link:hover{color:var(--black)}
+  .ao-grid .check{border-top:0;padding:9px 0}
+  @media (max-width:1180px){
+    #form{grid-template-columns:1fr}
+    #form > .q.half{grid-column:1/-1}
+    .vgrid,.ao-grid{grid-template-columns:1fr}
+  }
+
+  /* Details off is the working view: prose hidden, rhythm tightened. */
+  :root[data-detail="off"] .q-note,
+  :root[data-detail="off"] .aibox,
+  :root[data-detail="off"] .freebox,
+  :root[data-detail="off"] .scale,
+  :root[data-detail="off"] .hint.ex,
+  :root[data-detail="off"] .notes,
+  :root[data-detail="off"] .chan-n{display:none}
+  :root[data-detail="off"] .lede{display:none}
+  :root[data-detail="off"] .masthead h1{font-size:clamp(1.6rem,3.2vw,2.3rem);max-width:30ch}
+  :root[data-detail="off"] .masthead{padding-top:26px;padding-bottom:4px}
+  :root[data-detail="off"] .channels{margin-top:16px}
+  :root[data-detail="off"] .q{padding:15px 20px 17px}
+  :root[data-detail="off"] .field{margin-bottom:13px}
+  :root[data-detail="off"] .s-head{margin-bottom:12px}
+  :root[data-detail="off"] .freebox{padding:13px 16px}
+  :root[data-detail="off"] .chan-in{padding:11px 16px}
   .q-head{display:flex;align-items:center;gap:11px;margin-bottom:7px}
   .q-num{width:24px;height:24px;border-radius:50%;background:var(--green);color:var(--on-brand);
     font-size:12px;font-weight:700;display:grid;place-items:center;flex:none}
@@ -106,7 +149,7 @@
   .chip:hover{border-color:var(--green)}
   .chip:focus-visible{outline:2px solid var(--black);outline-offset:2px}
 
-  .field{margin-bottom:22px}
+  .field{margin-bottom:17px}
   .field:last-child{margin-bottom:0}
   .field-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:8px}
   .field-label{font-weight:500;font-size:.97rem;display:flex;align-items:center;gap:9px}
@@ -421,6 +464,10 @@
     try { t = localStorage.getItem("wati-theme"); } catch(e){}
     // Light is the default everywhere; dark is opt-in and remembered per browser.
     document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
+    // Details off is the default: the compact view an AE uses on a call.
+    var d = null;
+    try { d = localStorage.getItem("wati-detail"); } catch(e){}
+    document.documentElement.setAttribute("data-detail", d === "on" ? "on" : "off");
   })();
 </script>
 </head>
@@ -446,6 +493,16 @@
       <div class="ctrl" id="langBox" hidden>
         <label class="ctrl-l" for="langPick" data-i18n="ctrlLang">Language</label>
         <div class="selwrap"><select id="langPick"></select></div>
+      </div>
+      <div class="ctrl">
+        <span class="ctrl-l" data-i18n="ctrlDetail">Details</span>
+        <button type="button" class="switch" id="detailBtn" role="switch" aria-checked="false">
+          <span class="knob">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M5 7.5h14M5 12h14M5 16.5h9"/></svg>
+          </span>
+          <span class="sr" data-i18n="srDetail">Show the explanatory notes</span>
+        </button>
       </div>
       <div class="ctrl">
         <span class="ctrl-l" data-i18n="ctrlTheme">Dark mode</span>
@@ -510,7 +567,7 @@
 <button aria-pressed="true" class="chip" data-i18n="t009" data-usecase="mixed" type="button">A mix of all of it</button>
 </div>
 </section>
-<section class="q">
+<section class="q half">
 <div class="q-head"><span class="q-num">3</span><h2 data-i18n="t010">How many WhatsApp numbers?</h2></div>
 <p class="q-note" data-i18n="t011">One number suits most businesses. Separate numbers need Business, and each extra is billed monthly.</p>
 <div class="field">
@@ -524,7 +581,7 @@
 <div class="scale"><span>1</span><span>5</span><span>10+</span></div>
 </div>
 </section>
-<section class="q">
+<section class="q half">
 <div class="q-head"><span class="q-num">4</span><h2 data-i18n="t013">How many people need a login?</h2></div>
 <p class="q-note" data-i18n="t014">Everyone answering chats needs a seat. Growth includes 3 and cannot be topped up at any price.</p>
 <div class="field">
@@ -541,6 +598,7 @@
 <section class="q">
 <div class="q-head"><span class="q-num">5</span><h2 data-i18n="t016">How many messages a month?</h2></div>
 <p class="q-note" data-i18n="t017">WhatsApp bills per delivered message by category, not per contact. Split your monthly volume across the three that cost money.</p>
+<div class="vgrid">
 <div class="field">
 <div class="field-top">
 <span class="field-label" data-i18n="t018"><i class="dot d-mkt"></i>Marketing<span class="sr" data-i18n="srMsgs"> messages per month</span></span>
@@ -571,12 +629,13 @@
 <div class="field">
 <div class="field-top">
 <span class="field-label stack" data-i18n="t024">Service messages a month
-            <span class="hint" data-i18n="t025">Free-form replies you send inside the 24-hour window. Billable per message from 1 Oct 2026, after the first 1,000 a month. Inbound is always free. <a data-i18n="t026" href="https://support.wati.io/en/articles/16954666-whatsapp-business-platform-api-pricing-changes-service-messages-and-click-to-message-ads" rel="noopener" target="_blank">What changed</a></span>
+            <span class="hint ex" data-i18n="t025">Free-form replies you send inside the 24-hour window. Billable per message from 1 Oct 2026, after the first 1,000 a month. Inbound is always free. <a data-i18n="t026" href="https://support.wati.io/en/articles/16954666-whatsapp-business-platform-api-pricing-changes-service-messages-and-click-to-message-ads" rel="noopener" target="_blank">What changed</a></span>
 </span>
 <input aria-label="Service messages per month" class="num" id="svcNum" max="2000000" min="0" step="100" type="number" value="0"/>
 </div>
 <input aria-label="Service messages slider" id="svcRange" max="50000" min="0" step="100" type="range" value="0"/>
 <div class="scale"><span>0</span><span>25,000</span><span>50,000+</span></div>
+</div>
 </div>
 <div class="mix">
 <div class="mix-t"><span data-i18n="mixT">Your message mix</span><b id="mixTotal">—</b></div>
@@ -600,7 +659,7 @@
 <div class="field">
 <div class="field-top">
 <span class="field-label stack" data-i18n="t035">Automation triggers a month
-            <span class="hint" data-i18n="t036">Roughly one per customer who starts an automated chat, plus one per automated follow-up. API-initiated actions don't count.</span>
+            <span class="hint ex" data-i18n="t036">Roughly one per customer who starts an automated chat, plus one per automated follow-up. API-initiated actions don't count.</span>
 </span>
 <input aria-label="Automation triggers per month" class="num" id="trigNum" max="1000000" min="0" step="100" type="number" value="2000"/>
 </div>
@@ -615,7 +674,7 @@
 <div class="field">
 <div class="field-top">
 <span class="field-label stack" data-i18n="t039">Wati AI credits a month
-            <span class="hint" data-i18n="t040">One pool shared by Wati AI and Astra. Free each month: 2,000 Growth, 5,000 Pro, 20,000 Business. Leave at 0 if the team won't use AI.</span>
+            <span class="hint ex" data-i18n="t040">One pool shared by Wati AI and Astra. Free each month: 2,000 Growth, 5,000 Pro, 20,000 Business. Leave at 0 if the team won't use AI.</span>
 </span>
 <input aria-label="Wati AI credits per month" class="num" id="aiNum" max="500000" min="0" step="500" type="number" value="0"/>
 </div>
@@ -625,7 +684,7 @@
 <div class="field">
 <div class="field-top">
 <span class="field-label stack" data-i18n="agentsAi">Astra AI agents you need
-            <span class="hint" data-i18n="agentsAiHint">Growth 1, Pro 2, Business unlimited. Ask for more than the plan allows and it's ruled out.</span>
+            <span class="hint ex" data-i18n="agentsAiHint">Growth 1, Pro 2, Business unlimited. Ask for more than the plan allows and it's ruled out.</span>
 </span>
 <input aria-label="Astra AI agents" class="num" id="aiAgentNum" max="50" min="0" step="1" type="number" value="1"/>
 </div>
@@ -655,8 +714,6 @@
 <div><label data-i18n="shopify" for="needShopify">Connect Shopify</label>
 <span class="hint" data-i18n="shopifyHint">Needed for abandoned-cart, COD confirmation and automated order updates. $4.99 a month, billed in USD.</span></div>
 </div>
-</section>
-<section class="q">
 </section>
 </form>
 <aside aria-label="Cost estimate" class="rcol">
@@ -1695,6 +1752,20 @@
     else if (wide.addListener) wide.addListener(place);
   })();
 
+  // Details: off is the working view for a live call; on is the full explanation.
+  (function(){
+    var btn = $("detailBtn"), root = document.documentElement;
+    function set(on, save){
+      root.setAttribute("data-detail", on ? "on" : "off");
+      btn.setAttribute("aria-checked", String(on));
+      if (save){ try { localStorage.setItem("wati-detail", on ? "on" : "off"); } catch(e){} }
+    }
+    set(root.getAttribute("data-detail") === "on", false);
+    btn.addEventListener("click", function(){
+      set(root.getAttribute("data-detail") !== "on", true);
+    });
+  })();
+
   (function(){
     var btn = $("themeBtn"), root = document.documentElement;
     function sync(){
@@ -1811,16 +1882,18 @@
       if (!items.length) return;
       var h = document.createElement("p");
       h.className = "s-head"; h.textContent = g[1]; host.appendChild(h);
+      var grid = document.createElement("div"); grid.className = "ao-grid";
+      host.appendChild(grid);
       items.forEach(function(a){
         var hint = document.createElement("span");
-        hint.className = "hint";
-        hint.appendChild(document.createTextNode(T("ao_" + a.k + "_h", a.hint) + " "));
+        hint.className = "hint ex";
+        hint.appendChild(document.createTextNode(T("ao_" + a.k + "_h", a.hint)));
         var link = null;
         if (a.url){
           link = document.createElement("a");
+          link.className = "ao-link";
           link.href = a.url; link.target = "_blank"; link.rel = "noopener";
           link.textContent = T("aoLearn","What this does");
-          hint.appendChild(link);
         }
         var lab, rec = { a:a, hint:hint, link:link };
 
@@ -1832,6 +1905,7 @@
           lab.className = "field-label stack";
           lab.setAttribute("for", "ad_" + a.k);
           lab.appendChild(document.createTextNode(""));
+          if (link) lab.appendChild(link);
           lab.appendChild(hint);
           var num = document.createElement("input");
           num.className = "num"; num.type = "number"; num.id = "ad_" + a.k;
@@ -1846,7 +1920,7 @@
           });
           rec.el = lab; rec.note = note;
           ADDON_LABELS.push(rec);
-          host.appendChild(field);
+          grid.appendChild(field);
         } else {
           var row = document.createElement("div"); row.className = "check";
           var cb = document.createElement("input");
@@ -1855,12 +1929,14 @@
           var box = document.createElement("div");
           lab = document.createElement("label");
           lab.setAttribute("for", cb.id);
-          box.appendChild(lab); box.appendChild(hint);
+          box.appendChild(lab);
+          if (link) box.appendChild(link);
+          box.appendChild(hint);
           row.appendChild(cb); row.appendChild(box);
           cb.addEventListener("change", function(){ state.addons[a.k] = cb.checked ? 1 : 0; render(); });
           rec.el = lab;
           ADDON_LABELS.push(rec);
-          host.appendChild(row);
+          grid.appendChild(row);
         }
       });
     });
@@ -1962,7 +2038,7 @@
       a.target = "_blank"; a.rel = "noopener";
       a.appendChild(document.createTextNode(it.label + " "));
       var s = document.createElement("span");
-      s.textContent = it.card;
+      s.className = "rc-file"; s.textContent = it.card;
       a.appendChild(s);
       li.appendChild(a); ul.appendChild(li);
     });
@@ -2135,6 +2211,7 @@
       var was = T("t057","Copy for email");
       btn.textContent = ok ? T("copied","Copied — paste into your email")
                            : T("copyFail","Copy failed");
+      if (ok && window.__track) window.__track("copy");
       setTimeout(function(){ btn.textContent = was; }, 2200);
     }
     function plainOnly(){
@@ -2164,6 +2241,52 @@
   rebuildCcyOptions();
   render();
   fetchRates();
+
+  /* ============================================================
+     Usage tracking
+     Anonymous counts, so the team can see which calculators get used.
+     The payload carries the region, the event and two random ids kept in
+     this browser — never the volumes, prices or anything a customer typed.
+     ============================================================ */
+  (function(){
+    var URL = "https://script.google.com/macros/s/AKfycbz45ERWViNfVOAWMxIVZ2fWNN9pw22ldBNz0yJN26U3Y47lpVhevT3xLDZk7EmHTik/exec";
+    if (URL.indexOf("https://") !== 0) return;      // not configured: stay silent
+
+    function anonId(store, key){
+      try {
+        var v = store.getItem(key);
+        if (!v){
+          v = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+          store.setItem(key, v);
+        }
+        return v;
+      } catch(e){ return ""; }                      // private window, blocked storage
+    }
+    var visitor = anonId(window.localStorage, "wati-calc-visitor");
+    var session = anonId(window.sessionStorage, "wati-calc-session");
+
+    window.__track = function(event){
+      var body = JSON.stringify({
+        region: CONFIG.region,
+        event: event,
+        visitor: visitor,
+        session: session,
+        lang: LANG,
+        ccy: state.outCcy
+      });
+      try {
+        // A beacon so it still lands when the tab closes; text/plain keeps it a
+        // simple request, so Apps Script never sees a CORS preflight.
+        if (navigator.sendBeacon){
+          navigator.sendBeacon(URL, new Blob([body], { type: "text/plain;charset=utf-8" }));
+        } else {
+          fetch(URL, { method: "POST", mode: "no-cors", keepalive: true,
+            headers: { "Content-Type": "text/plain;charset=utf-8" }, body: body });
+        }
+      } catch(e){}                                   // tracking never breaks the page
+    };
+    window.__track("view");
+  })();
 })();
 </script>
 </body>
